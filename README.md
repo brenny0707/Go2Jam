@@ -46,4 +46,4 @@ Start mapping one song, try to test song if possible
 Complete mapping one song, polish out and start adding more song maps
 
 #### W10 Weekend
-Polish up further if needed
+Polish up further

@@ -12,19 +12,23 @@ ToDos
     <meta charset="utf-8">
     <title>Go2Jam</title>
     <link rel="stylesheet" href="canvas.css">
-    <script type="text/javascript" src="button_actions.js"></script>
-    <script type="text/javascript">
-      document.addEventListener("DOMContentLoaded", function(event) {
-        let canvas = document.getElementById('canvas');
-        var ctx = canvas.getContext('2d');
-        window.addEventListener('keydown', function(event) {
-          console.log(event.keyCode);
-        });
+    <script type="text/javascript" src="canvas.js"></script>
 
-      });
-    </script>
   </head>
   <body>
+    <audio id="voicians">
+      <source src="VOICIANS-Empire.mp3" type="audio/mp3">
+    </audio>
+    <audio id="fd">
+      <source src="fd.mp3" type="audio/mp3">
+    </audio>
+
+    <button onclick="playAudio()" type="button">Play Audio</button>
+    <button onclick="pauseAudio()" type="button">Pause Audio</button>
+
+    <script>
+</script>
+
     <div class="canvas-div">
       <canvas id="canvas" width="500" height="700"></canvas>
     </div>
