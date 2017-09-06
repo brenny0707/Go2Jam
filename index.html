@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+ToDos
+1. Create canvas
+2. Add music
+3. Generate scrolling notes (big part!!!)
+4. Incorporate timing/scoring
+
+ -->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go2Jam</title>
+    <link rel="stylesheet" href="canvas.css">
+    <script type="text/javascript" src="button_actions.js"></script>
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function(event) {
+        let canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        window.addEventListener('keydown', function(event) {
+          console.log(event.keyCode);
+        });
+
+      });
+    </script>
+  </head>
+  <body>
+    <div class="canvas-div">
+      <canvas id="canvas" width="500" height="700"></canvas>
+    </div>
+  </body>
+</html>
