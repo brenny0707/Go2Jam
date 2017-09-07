@@ -1,6 +1,8 @@
+import Beat from './beats/beat.js';
+import BeatColumn from './beats/beat_column.js';
+import * as Song from './songs.js';
 
-
-  document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener('DOMContentLoaded', () => {
     let canvas = document.getElementById('board');
     let ctx = canvas.getContext('2d');
     drawBorder();
@@ -126,4 +128,25 @@
       }
     });
 
-  });
+
+
+  let col0 = new BeatColumn(0);
+  let col1 = new BeatColumn(1);
+  let col2 = new BeatColumn(2);
+  let col3 = new BeatColumn(3);
+  let testTimer = 0;
+  setInterval( () => col0.addBeat(), 1000);
+  setInterval( () => col1.addBeat(), 2000);
+  setInterval( () => col2.addBeat(), 3000);
+  setInterval( () => col3.addBeat(), 4000);
+  setInterval( () => {
+    debugger
+    col0.drawBeats();
+    col1.drawBeats();
+    col2.drawBeats();
+    col3.drawBeats();
+    testTimer ++;
+  }
+    , 1);
+  Song.playSong('fd');
+});
