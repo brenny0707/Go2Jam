@@ -1,6 +1,7 @@
 function playSong(songFile) {
   let song = document.getElementById(`${songFile}`);
   song.play();
+  //start notes
 }
 
 function pauseSong(songFile) {

@@ -1,5 +1,5 @@
   document.addEventListener("DOMContentLoaded", function(event) {
-    let canvas = document.getElementById('canvas');
+    let canvas = document.getElementById('board');
     let ctx = canvas.getContext('2d');
     drawBorder();
     let firedKeys = {
@@ -34,7 +34,6 @@
     }
 
     function keyUp(num, key) {
-      debugger
       firedKeys[key] = false;
       if(firedKeys["f"] === false && firedKeys["g"] === false && firedKeys["h"] === false && firedKeys["j"] === false) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -50,30 +49,30 @@
     window.addEventListener('keydown', function(event) {
       // console.log(event.keyCode);
       switch(event.keyCode) {
-        case 32:
-        console.log("space");
-        //both space and enter count for same thing
-        break;
-        case 13:
-        console.log("enter");
-        //both space and enter count for same thing
-        break;
-        case 87:
-          console.log("w");
-          //navigate up menu
-          break;
-        case 65:
-          console.log("a");
-          //navigate left menu?
-          break;
-        case 83:
-          console.log("s");
-          //navigate down menu
-          break;
-        case 68:
-          console.log("d");
-          //navigate right menu?
-          break;
+        // case 32:
+        // console.log("space");
+        // //both space and enter count for same thing
+        // break;
+        // case 13:
+        // console.log("enter");
+        // //both space and enter count for same thing
+        // break;
+        // case 87:
+        //   console.log("w");
+        //   //navigate up menu
+        //   break;
+        // case 65:
+        //   console.log("a");
+        //   //navigate left menu?
+        //   break;
+        // case 83:
+        //   console.log("s");
+        //   //navigate down menu
+        //   break;
+        // case 68:
+        //   console.log("d");
+        //   //navigate right menu?
+        //   break;
         case 70:
           console.log("f");
           keyHit(0, "f");
@@ -94,6 +93,7 @@
           keyHit(3, "j");
           //press key 4
           break;
+        default:
       }
     });
 
@@ -120,6 +120,7 @@
           keyUp(3, "j");
           //press key 4
           break;
+        default:
       }
     });
 
