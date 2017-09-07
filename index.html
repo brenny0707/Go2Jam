@@ -13,24 +13,35 @@ ToDos
     <title>Go2Jam</title>
     <link rel="stylesheet" href="canvas.css">
     <script type="text/javascript" src="canvas.js"></script>
+    <script type="text/javascript" src="songs.js"></script>
 
   </head>
   <body>
-    <audio id="voicians">
-      <source src="VOICIANS-Empire.mp3" type="audio/mp3">
+    <audio id="cyf">
+      <source src="cyf.mp3" type="audio/mp3">
     </audio>
     <audio id="fd">
       <source src="fd.mp3" type="audio/mp3">
     </audio>
-
-    <button onclick="playAudio()" type="button">Play Audio</button>
-    <button onclick="pauseAudio()" type="button">Pause Audio</button>
-
-    <script>
-</script>
-
-    <div class="canvas-div">
-      <canvas id="canvas" width="500" height="700"></canvas>
+    <div class="go2jam-container">
+      <div class="">
+        <button onclick="playSong('cyf')" type="button">Play song 1</button>
+        <button onclick="playSong('fd')" type="button">Play song 2</button>
+        <br>
+        <button onclick="pauseSong('cyf')" type="button">Pause song 1</button>
+        <button onclick="pauseSong('fd')" type="button">Pause song 2</button>
+        <br>
+        <button onclick="stopSong('cyf')" type="button">Stop song 1</button>
+        <button onclick="stopSong('fd')" type="button">Stop song 2</button>
+        <br>
+        <button onclick="resetSong('cyf')" type="button">Reset song 1</button>
+        <button onclick="resetSong('fd')" type="button">Reset song 2</button>
+      </div>
+      <div class="canvas-div">
+        <canvas id="canvas" width="500" height="700">
+          This browser does not support Go2Jam :(
+        </canvas>
+      </div>
     </div>
   </body>
 </html>
