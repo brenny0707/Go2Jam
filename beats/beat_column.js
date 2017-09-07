@@ -21,7 +21,7 @@ class BeatColumn {
     // this.ctx.save();
     if (this.beats.length > 0) {
       this.beats.forEach( (beat) => {
-        beat.posY += 1;
+        beat.posY += 2;
         beat.drawBeat();
       });
     }

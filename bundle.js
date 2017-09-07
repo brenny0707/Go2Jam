@@ -82,6 +82,10 @@ var _songs = __webpack_require__(3);
 
 var Song = _interopRequireWildcard(_songs);
 
+var _beatmap = __webpack_require__(4);
+
+var _beatmap2 = _interopRequireDefault(_beatmap);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -209,32 +213,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  var col0 = new _beat_column2.default(0);
-  var col1 = new _beat_column2.default(1);
-  var col2 = new _beat_column2.default(2);
-  var col3 = new _beat_column2.default(3);
-  var testTimer = 0;
+  var testNotes0 = [400, 950];
+  var testNotes1 = [800, 850, 950];
+  var testNotes2 = [800, 850];
+  var testNotes3 = [400];
+
+  var testBeatMap = new _beatmap2.default(testNotes0, testNotes1, testNotes2, testNotes3);
   setInterval(function () {
-    return col0.addBeat();
-  }, 1000);
-  setInterval(function () {
-    return col1.addBeat();
-  }, 2000);
-  setInterval(function () {
-    return col2.addBeat();
-  }, 3000);
-  setInterval(function () {
-    return col3.addBeat();
-  }, 4000);
-  setInterval(function () {
-    debugger;
-    col0.drawBeats();
-    col1.drawBeats();
-    col2.drawBeats();
-    col3.drawBeats();
-    testTimer++;
+    testBeatMap.addNotes(0);
+    testBeatMap.addNotes(1);
+    testBeatMap.addNotes(2);
+    testBeatMap.addNotes(3);
+    testBeatMap.drawBeatMap();
   }, 1);
-  Song.playSong('fd');
+  setTimeout(function () {
+    return Song.playSong('cyf');
+  }, 1000);
 });
 
 /***/ }),
@@ -351,7 +345,7 @@ var BeatColumn = function () {
       // this.ctx.save();
       if (this.beats.length > 0) {
         this.beats.forEach(function (beat) {
-          beat.posY += 1;
+          beat.posY += 2;
           beat.drawBeat();
         });
       }
@@ -429,6 +423,92 @@ function resetSong(songFile) {
   song.currentTime = 0;
   song.play();
 }
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _beat = __webpack_require__(1);
+
+var _beat2 = _interopRequireDefault(_beat);
+
+var _beat_column = __webpack_require__(2);
+
+var _beat_column2 = _interopRequireDefault(_beat_column);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var BeatMap = function () {
+  function BeatMap(notes0, notes1, notes2, notes3) {
+    _classCallCheck(this, BeatMap);
+
+    this.time = 0;
+    //notes are arrays with time integers (in ms) to see when it needs to be added to respective BeatColumn
+    this.notes = {
+      0: notes0,
+      1: notes1,
+      2: notes2,
+      3: notes3
+    };
+
+    this.cols = {
+      0: new _beat_column2.default(0),
+      1: new _beat_column2.default(1),
+      2: new _beat_column2.default(2),
+      3: new _beat_column2.default(3)
+    };
+
+    this.upTime = this.upTime.bind(this);
+    this.addNotes = this.addNotes.bind(this);
+  }
+
+  _createClass(BeatMap, [{
+    key: 'addNotes',
+    value: function addNotes(colNum) {
+      if (this.notes['' + colNum][0] <= this.time) {
+        this.cols['' + colNum].addBeat(colNum);
+        this.notes['' + colNum].shift();
+      }
+    }
+  }, {
+    key: 'drawBeatMap',
+    value: function drawBeatMap() {
+      debugger;
+      this.cols[0].drawBeats();
+      this.cols[1].drawBeats();
+      this.cols[2].drawBeats();
+      this.cols[3].drawBeats();
+      this.time += 1;
+    }
+  }, {
+    key: 'upTime',
+    value: function upTime() {
+      this.time;
+    }
+  }]);
+
+  return BeatMap;
+}();
+
+// let testNotes0 = [0,1000,1500,2000,5000];
+// let testNotes1 = [500,1000,1500,2000,5000];
+// let testNotes2 = [500,1000,1200,1400,1600,1800,2000];
+// let testNotes3 = [0,5000,10000,11000,12000];
+//
+// let testBeatMap = new BeatMap(testNotes0, testNotes1, testNotes2, testNotes3);
+
+exports.default = BeatMap;
 
 /***/ })
 /******/ ]);

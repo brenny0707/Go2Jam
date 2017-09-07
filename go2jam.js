@@ -1,6 +1,7 @@
 import Beat from './beats/beat.js';
 import BeatColumn from './beats/beat_column.js';
 import * as Song from './songs.js';
+import BeatMap from './beats/beatmap.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     let canvas = document.getElementById('board');
@@ -128,25 +129,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    let testNotes0 = [400, 950];
+    let testNotes1 = [800, 850, 950];
+    let testNotes2 = [800, 850];
+    let testNotes3 = [400];
 
-
-  let col0 = new BeatColumn(0);
-  let col1 = new BeatColumn(1);
-  let col2 = new BeatColumn(2);
-  let col3 = new BeatColumn(3);
-  let testTimer = 0;
-  setInterval( () => col0.addBeat(), 1000);
-  setInterval( () => col1.addBeat(), 2000);
-  setInterval( () => col2.addBeat(), 3000);
-  setInterval( () => col3.addBeat(), 4000);
-  setInterval( () => {
-    debugger
-    col0.drawBeats();
-    col1.drawBeats();
-    col2.drawBeats();
-    col3.drawBeats();
-    testTimer ++;
-  }
-    , 1);
-  Song.playSong('fd');
+    let testBeatMap = new BeatMap(testNotes0, testNotes1, testNotes2, testNotes3);
+    setInterval( () => {
+      testBeatMap.addNotes(0);
+      testBeatMap.addNotes(1);
+      testBeatMap.addNotes(2);
+      testBeatMap.addNotes(3);
+      testBeatMap.drawBeatMap();
+    }, 1);
+    setTimeout( () => Song.playSong('cyf'), 1000);
 });
