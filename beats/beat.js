@@ -28,6 +28,7 @@ class Beat {
     this.ctx.strokeRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
   }
 
+  //these handles irrelevant???
   handleTimingBar() {
     this.inTimingBar = true;
   }

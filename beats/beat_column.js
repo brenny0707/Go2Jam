@@ -28,7 +28,7 @@ class BeatColumn {
   }
 
   removeBeats(comboCounter) {
-    let scoring = {beatPoints: 0, combo: comboCounter}
+    let scoring = {beatPoints: 0, combo: comboCounter};
     let pastBeats = 0;
     if (this.beats.length > 0) {
       this.beats.forEach( (beat, idx) => {
@@ -42,7 +42,6 @@ class BeatColumn {
       });
     }
     this.beats.splice(0, pastBeats);
-    // debugger
     return scoring;
   }
 
@@ -64,7 +63,6 @@ class BeatColumn {
       hitResult.points = 0;
       hitResult.success = false;
     }
-    // debugger
     return hitResult;
   }
 }

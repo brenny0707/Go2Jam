@@ -40,7 +40,6 @@ class BeatMap {
 
   keyHit(colNum) {
     let hitResult = this.cols[colNum].removeBeats(this.comboCounter);
-    // debugger
     this.score += hitResult.beatPoints;
     this.comboCounter = hitResult.combo;
     console.log(this.comboCounter);

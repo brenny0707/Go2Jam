@@ -107,6 +107,9 @@ var Beat = function () {
 
       this.col === 0 ? this.ctx.strokeRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) : this.ctx.strokeRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
     }
+
+    //these handles irrelevant???
+
   }, {
     key: 'handleTimingBar',
     value: function handleTimingBar() {
@@ -213,7 +216,6 @@ var BeatColumn = function () {
         });
       }
       this.beats.splice(0, pastBeats);
-      // debugger
       return scoring;
     }
   }, {
@@ -231,7 +233,6 @@ var BeatColumn = function () {
         hitResult.points = 0;
         hitResult.success = false;
       }
-      // debugger
       return hitResult;
     }
   }]);
@@ -263,6 +264,10 @@ var Song = _interopRequireWildcard(_songs);
 var _beatmap = __webpack_require__(4);
 
 var _beatmap2 = _interopRequireDefault(_beatmap);
+
+var _song_list = __webpack_require__(6);
+
+var _song_list2 = _interopRequireDefault(_song_list);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -314,7 +319,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   window.addEventListener('keydown', function (event) {
-    // console.log(event.keyCode);
     switch (event.keyCode) {
       // case 32:
       // console.log("space");
@@ -342,22 +346,22 @@ document.addEventListener('DOMContentLoaded', function () {
       //   break;
       case 70:
         keyHit(0, "f");
-        cyfBeatMap.keyHit(0);
+        currentBeatMap.keyHit(0);
         //press key 1
         break;
       case 71:
         keyHit(1, "g");
-        cyfBeatMap.keyHit(1);
+        currentBeatMap.keyHit(1);
         //press key 2
         break;
       case 72:
         keyHit(2, "h");
-        cyfBeatMap.keyHit(2);
+        currentBeatMap.keyHit(2);
         //press key 3
         break;
       case 74:
         keyHit(3, "j");
-        cyfBeatMap.keyHit(3);
+        currentBeatMap.keyHit(3);
         //press key 4
         break;
       default:
@@ -386,20 +390,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  var cyfNotes0 = [400, 950, 1760, 2000, 2220];
-  var cyfNotes1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
-  var cyfNotes2 = [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
-  var cyfNotes3 = [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
+  // let cyfNotes0 =
+  // [400, 950, 1760, 2000, 2220];
+  // let cyfNotes1 =
+  // [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
+  // let cyfNotes2 =
+  // [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
+  // let cyfNotes3 =
+  // [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
 
-  var cyfBeatMap = new _beatmap2.default(cyfNotes0, cyfNotes1, cyfNotes2, cyfNotes3);
+  // let cyfBeatMap = new BeatMap(cyfNotes0, cyfNotes1, cyfNotes2, cyfNotes3);
+  var songChoice = "cyf";
+  var currentSong = _song_list2.default[songChoice];
+  var difficulty = "easyBM";
+  var currentBeatMap = currentSong[difficulty];
+  debugger;
+
   setInterval(function () {
-    cyfBeatMap.addNotes(0);
-    cyfBeatMap.addNotes(1);
-    cyfBeatMap.addNotes(2);
-    cyfBeatMap.addNotes(3);
-    cyfBeatMap.drawBeatMap();
+    currentBeatMap.addNotes(0);
+    currentBeatMap.addNotes(1);
+    currentBeatMap.addNotes(2);
+    currentBeatMap.addNotes(3);
+    currentBeatMap.drawBeatMap();
   }, 1);
-  // setTimeout( () => Song.playSong('cyf'), 1000);
+  setTimeout(function () {
+    return Song.playSong(currentSong.songTag);
+  }, 1000);
 });
 
 /***/ }),
@@ -474,7 +490,6 @@ var BeatMap = function () {
     key: 'keyHit',
     value: function keyHit(colNum) {
       var hitResult = this.cols[colNum].removeBeats(this.comboCounter);
-      // debugger
       this.score += hitResult.beatPoints;
       this.comboCounter = hitResult.combo;
       console.log(this.comboCounter);
@@ -530,6 +545,69 @@ function resetSong(songFile) {
   song.currentTime = 0;
   song.play();
 }
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _cyf = __webpack_require__(7);
+
+var _cyf2 = _interopRequireDefault(_cyf);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SongList = {
+  cyf: _cyf2.default
+};
+
+exports.default = SongList;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _beatmap = __webpack_require__(4);
+
+var _beatmap2 = _interopRequireDefault(_beatmap);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var cyfEasy0 = [400, 950];
+var cyfEasy1 = [800, 850, 1100];
+var cyfEasy2 = [1200];
+var cyfEasy3 = [];
+
+var cyfHard0 = [400, 950, 1760, 2000, 2220];
+var cyfHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
+var cyfHard2 = [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
+var cyfHard3 = [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
+
+var cyfEasy = new _beatmap2.default(cyfEasy0, cyfEasy1, cyfEasy2, cyfEasy3);
+var cyfHard = new _beatmap2.default(cyfHard0, cyfHard1, cyfHard2, cyfHard3);
+
+var music = {
+  title: "Can You Feel",
+  songTag: "cyf",
+  songOffset: 1000,
+  easyBM: cyfEasy,
+  hardBM: cyfHard
+};
+
+exports.default = music;
 
 /***/ })
 /******/ ]);
