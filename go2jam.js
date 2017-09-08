@@ -141,5 +141,5 @@ document.addEventListener('DOMContentLoaded', () => {
       cyfBeatMap.addNotes(3);
       cyfBeatMap.drawBeatMap();
     }, 1);
-    setTimeout( () => Song.playSong('cyf'), 1000);
+    // setTimeout( () => Song.playSong('cyf'), 1000);
 });

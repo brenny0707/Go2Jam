@@ -196,35 +196,43 @@ var BeatColumn = function () {
     }
   }, {
     key: "removeBeats",
-    value: function removeBeats(score) {
+    value: function removeBeats(comboCounter) {
       var _this = this;
 
+      var scoring = { beatPoints: 0, combo: comboCounter };
       var pastBeats = 0;
       if (this.beats.length > 0) {
         this.beats.forEach(function (beat, idx) {
           if (beat.posY >= _this.canvas.height * .75 - _this.canvas.height * .08) {
             pastBeats++;
-            score += _this.handleScoring(beat);
+            var hitResult = _this.handleScoring(beat, comboCounter);
             beat.handleRemove();
-            return score;
+            scoring.beatPoints += hitResult.points;
+            hitResult.success === false ? scoring.combo = 0 : scoring.combo++;
           }
         });
       }
       this.beats.splice(0, pastBeats);
+      // debugger
+      return scoring;
     }
   }, {
     key: "handleScoring",
-    value: function handleScoring(beat) {
+    value: function handleScoring(beat, combo) {
+      var hitResult = { points: null, success: true };
       if (beat.awesomeScore()) {
         console.log("AWESOME!");
-        return 10;
+        combo === 0 ? hitResult.points = 10 : hitResult.points = 10 * combo;
       } else if (beat.greatScore()) {
         console.log("Great!");
-        return 5;
+        combo === 0 ? hitResult.points = 10 : hitResult.points = 5 * combo;
       } else {
         console.log("Miss :(");
-        return 0;
+        hitResult.points = 0;
+        hitResult.success = false;
       }
+      // debugger
+      return hitResult;
     }
   }]);
 
@@ -391,9 +399,7 @@ document.addEventListener('DOMContentLoaded', function () {
     cyfBeatMap.addNotes(3);
     cyfBeatMap.drawBeatMap();
   }, 1);
-  setTimeout(function () {
-    return Song.playSong('cyf');
-  }, 1000);
+  // setTimeout( () => Song.playSong('cyf'), 1000);
 });
 
 /***/ }),
@@ -442,6 +448,7 @@ var BeatMap = function () {
       3: new _beat_column2.default(3)
     };
     this.score = 0;
+    this.comboCounter = 0;
     this.addNotes = this.addNotes.bind(this);
     this.keyHit = this.keyHit.bind(this);
   }
@@ -466,7 +473,11 @@ var BeatMap = function () {
   }, {
     key: 'keyHit',
     value: function keyHit(colNum) {
-      this.cols[colNum].removeBeats(this.score);
+      var hitResult = this.cols[colNum].removeBeats(this.comboCounter);
+      // debugger
+      this.score += hitResult.beatPoints;
+      this.comboCounter = hitResult.combo;
+      console.log(this.comboCounter);
     }
   }]);
 

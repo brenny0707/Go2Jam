@@ -27,36 +27,45 @@ class BeatColumn {
     }
   }
 
-  removeBeats(score) {
+  removeBeats(comboCounter) {
+    let scoring = {beatPoints: 0, combo: comboCounter}
     let pastBeats = 0;
     if (this.beats.length > 0) {
       this.beats.forEach( (beat, idx) => {
         if (beat.posY >= this.canvas.height * .75 - this.canvas.height * .08 ) {
           pastBeats ++;
-          score += this.handleScoring(beat);
+          let hitResult = this.handleScoring(beat, comboCounter);
           beat.handleRemove();
-          return score;
+          scoring.beatPoints += hitResult.points;
+          hitResult.success === false ? scoring.combo = 0 : scoring.combo ++;
         }
       });
     }
     this.beats.splice(0, pastBeats);
+    // debugger
+    return scoring;
   }
 
 
-  handleScoring(beat) {
+  handleScoring(beat, combo) {
+    let hitResult = { points: null, success: true };
     if (beat.awesomeScore()) {
       console.log("AWESOME!");
-      return 10;
+      combo === 0 ? hitResult.points = 10:
+      hitResult.points = 10 * combo;
     }
     else if (beat.greatScore()) {
       console.log("Great!");
-      return 5;
+      combo === 0 ? hitResult.points = 10:
+      hitResult.points = 5 * combo;
     }
     else {
       console.log("Miss :(");
-      return 0;
+      hitResult.points = 0;
+      hitResult.success = false;
     }
-
+    // debugger
+    return hitResult;
   }
 }
 

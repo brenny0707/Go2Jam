@@ -19,6 +19,7 @@ class BeatMap {
       3: new BeatColumn(3),
     };
     this.score = 0;
+    this.comboCounter = 0;
     this.addNotes = this.addNotes.bind(this);
     this.keyHit = this.keyHit.bind(this);
   }
@@ -38,7 +39,11 @@ class BeatMap {
   }
 
   keyHit(colNum) {
-    this.cols[colNum].removeBeats(this.score);
+    let hitResult = this.cols[colNum].removeBeats(this.comboCounter);
+    // debugger
+    this.score += hitResult.beatPoints;
+    this.comboCounter = hitResult.combo;
+    console.log(this.comboCounter);
   }
 }
 
