@@ -51,79 +51,79 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
     }
-
-
-    window.addEventListener('keydown', function(event) {
-      switch(event.keyCode) {
-        // case 32:
-        // console.log("space");
-        // //both space and enter count for same thing
-        // break;
-        // case 13:
-        // console.log("enter");
-        // //both space and enter count for same thing
-        // break;
-        // case 87:
-        //   console.log("w");
-        //   //navigate up menu
-        //   break;
-        // case 65:
-        //   console.log("a");
-        //   //navigate left menu?
-        //   break;
-        // case 83:
-        //   console.log("s");
-        //   //navigate down menu
-        //   break;
-        // case 68:
-        //   console.log("d");
-        //   //navigate right menu?
-        //   break;
-        case 70:
-          keyHit(0, "f");
-          currentBeatMap.keyHit(0);
-          //press key 1
-          break;
-        case 71:
-          keyHit(1, "g");
-          currentBeatMap.keyHit(1);
-          //press key 2
-          break;
-        case 72:
-          keyHit(2, "h");
-          currentBeatMap.keyHit(2);
-          //press key 3
-          break;
-        case 74:
-          keyHit(3, "j");
-          currentBeatMap.keyHit(3);
-          //press key 4
-          break;
-        default:
-      }
-    });
-
-    window.addEventListener('keyup', function(event) {
-      switch(event.keyCode) {
-        case 70:
-          keyUp(0, "f");
-          //press key 1
-          break;
-        case 71:
-          keyUp(1, "g");
-          //press key 2
-          break;
-        case 72:
-          keyUp(2, "h");
-          //press key 3
-          break;
-        case 74:
-          keyUp(3, "j");
-          //press key 4
-          break;
-        default:
-      }
-    });
+    // 
+    //
+    // window.addEventListener('keydown', function(event) {
+    //   switch(event.keyCode) {
+    //     // case 32:
+    //     // console.log("space");
+    //     // //both space and enter count for same thing
+    //     // break;
+    //     // case 13:
+    //     // console.log("enter");
+    //     // //both space and enter count for same thing
+    //     // break;
+    //     // case 87:
+    //     //   console.log("w");
+    //     //   //navigate up menu
+    //     //   break;
+    //     // case 65:
+    //     //   console.log("a");
+    //     //   //navigate left menu?
+    //     //   break;
+    //     // case 83:
+    //     //   console.log("s");
+    //     //   //navigate down menu
+    //     //   break;
+    //     // case 68:
+    //     //   console.log("d");
+    //     //   //navigate right menu?
+    //     //   break;
+    //     case 70:
+    //       keyHit(0, "f");
+    //       selectedBeatMap.keyHit(0);
+    //       //press key 1
+    //       break;
+    //     case 71:
+    //       keyHit(1, "g");
+    //       selectedBeatMap.keyHit(1);
+    //       //press key 2
+    //       break;
+    //     case 72:
+    //       keyHit(2, "h");
+    //       selectedBeatMap.keyHit(2);
+    //       //press key 3
+    //       break;
+    //     case 74:
+    //       keyHit(3, "j");
+    //       selectedBeatMap.keyHit(3);
+    //       //press key 4
+    //       break;
+    //     default:
+    //   }
+    // });
+    //
+    // window.addEventListener('keyup', function(event) {
+    //   switch(event.keyCode) {
+    //     case 70:
+    //       keyUp(0, "f");
+    //       //press key 1
+    //       break;
+    //     case 71:
+    //       keyUp(1, "g");
+    //       //press key 2
+    //       break;
+    //     case 72:
+    //       keyUp(2, "h");
+    //       //press key 3
+    //       break;
+    //     case 74:
+    //       keyUp(3, "j");
+    //       //press key 4
+    //       break;
+    //     default:
+    //   }
+    // });
 
     // let cyfNotes0 =
     // [400, 950, 1760, 2000, 2220];
@@ -136,17 +136,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // let cyfBeatMap = new BeatMap(cyfNotes0, cyfNotes1, cyfNotes2, cyfNotes3);
     let songChoice = "cyf";
+    let BMDifficulty = "hardBM";
     let currentSong = SongList[songChoice];
-    let difficulty = "easyBM";
-    let currentBeatMap = currentSong[difficulty];
-    debugger
+    let currentBeatMap = currentSong[BMDifficulty];
+    // debugger
 
-    setInterval( () => {
-      currentBeatMap.addNotes(0);
-      currentBeatMap.addNotes(1);
-      currentBeatMap.addNotes(2);
-      currentBeatMap.addNotes(3);
-      currentBeatMap.drawBeatMap();
-    }, 1);
-    setTimeout( () => Song.playSong(currentSong.songTag), 1000);
+
+    function playCurrentSong(songTag, difficulty) {
+      // debugger
+      let selectedSong = SongList[songTag];
+      let selectedBeatMap = selectedSong[difficulty];
+      setInterval( () => {
+        selectedBeatMap.addNotes(0);
+        selectedBeatMap.addNotes(1);
+        selectedBeatMap.addNotes(2);
+        selectedBeatMap.addNotes(3);
+        selectedBeatMap.drawBeatMap();
+      }, 1);
+      setTimeout( () => Song.playSong(selectedSong.songTag), selectedSong.songOffset);
+
+      window.addEventListener('keydown', function(event) {
+        switch(event.keyCode) {
+          case 70:
+            keyHit(0, "f");
+            selectedBeatMap.keyHit(0);
+            //press key 1
+            break;
+          case 71:
+            keyHit(1, "g");
+            selectedBeatMap.keyHit(1);
+            //press key 2
+            break;
+          case 72:
+            keyHit(2, "h");
+            selectedBeatMap.keyHit(2);
+            //press key 3
+            break;
+          case 74:
+            keyHit(3, "j");
+            selectedBeatMap.keyHit(3);
+            //press key 4
+            break;
+          default:
+        }
+      });
+
+      window.addEventListener('keyup', function(event) {
+        switch(event.keyCode) {
+          case 70:
+            keyUp(0, "f");
+            //press key 1
+            break;
+          case 71:
+            keyUp(1, "g");
+            //press key 2
+            break;
+          case 72:
+            keyUp(2, "h");
+            //press key 3
+            break;
+          case 74:
+            keyUp(3, "j");
+            //press key 4
+            break;
+          default:
+        }
+      });
+    }
+    playCurrentSong(songChoice, BMDifficulty);
+    // setInterval( () => {
+    //   selectedBeatMap.addNotes(0);
+    //   selectedBeatMap.addNotes(1);
+    //   selectedBeatMap.addNotes(2);
+    //   selectedBeatMap.addNotes(3);
+    //   selectedBeatMap.drawBeatMap();
+    // }, 1);
+    // setTimeout( () => Song.playSong(selectedSong.songTag), 1000);
 });

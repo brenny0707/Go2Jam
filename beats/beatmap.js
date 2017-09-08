@@ -42,7 +42,7 @@ class BeatMap {
     let hitResult = this.cols[colNum].removeBeats(this.comboCounter);
     this.score += hitResult.beatPoints;
     this.comboCounter = hitResult.combo;
-    console.log(this.comboCounter);
+    console.log(this.score);
   }
 }
 
