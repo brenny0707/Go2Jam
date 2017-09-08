@@ -27,19 +27,35 @@ class BeatColumn {
     }
   }
 
-  removeBeats() {
+  removeBeats(score) {
+    let pastBeats = 0;
     if (this.beats.length > 0) {
       this.beats.forEach( (beat, idx) => {
-        if (beat.hit === true && beat.inTimingBar === true) {
-          this.handleScoring(beat);
+        if (beat.posY >= this.canvas.height * .75 - this.canvas.height * .08 ) {
+          pastBeats ++;
+          score += this.handleScoring(beat);
           beat.handleRemove();
-          this.beats.splice(idx, 1);
+          return score;
         }
       });
     }
+    this.beats.splice(0, pastBeats);
   }
 
+
   handleScoring(beat) {
+    if (beat.awesomeScore()) {
+      console.log("AWESOME!");
+      return 10;
+    }
+    else if (beat.greatScore()) {
+      console.log("Great!");
+      return 5;
+    }
+    else {
+      console.log("Miss :(");
+      return 0;
+    }
 
   }
 }

@@ -1,6 +1,6 @@
 import Beat from './beats/beat.js';
 import BeatColumn from './beats/beat_column.js';
-import * as Song from './songs.js';
+import * as Song from './songs/songs.js';
 import BeatMap from './beats/beatmap.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -79,23 +79,23 @@ document.addEventListener('DOMContentLoaded', () => {
         //   //navigate right menu?
         //   break;
         case 70:
-          console.log("f");
           keyHit(0, "f");
+          cyfBeatMap.keyHit(0);
           //press key 1
           break;
         case 71:
-          console.log("g");
           keyHit(1, "g");
+          cyfBeatMap.keyHit(1);
           //press key 2
           break;
         case 72:
-          console.log("h");
           keyHit(2, "h");
+          cyfBeatMap.keyHit(2);
           //press key 3
           break;
         case 74:
-          console.log("j");
           keyHit(3, "j");
+          cyfBeatMap.keyHit(3);
           //press key 4
           break;
         default:
@@ -103,25 +103,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('keyup', function(event) {
-      // console.log(event.keyCode);
       switch(event.keyCode) {
         case 70:
-          console.log("f up");
           keyUp(0, "f");
           //press key 1
           break;
         case 71:
-          console.log("g up");
           keyUp(1, "g");
           //press key 2
           break;
         case 72:
-          console.log("h up");
           keyUp(2, "h");
           //press key 3
           break;
         case 74:
-          console.log("j up");
           keyUp(3, "j");
           //press key 4
           break;
@@ -129,18 +124,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    let testNotes0 = [400, 950];
-    let testNotes1 = [800, 850, 950];
-    let testNotes2 = [800, 850];
-    let testNotes3 = [400];
+    let cyfNotes0 =
+    [400, 950, 1760, 2000, 2220];
+    let cyfNotes1 =
+    [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
+    let cyfNotes2 =
+    [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
+    let cyfNotes3 =
+    [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
 
-    let testBeatMap = new BeatMap(testNotes0, testNotes1, testNotes2, testNotes3);
+    let cyfBeatMap = new BeatMap(cyfNotes0, cyfNotes1, cyfNotes2, cyfNotes3);
     setInterval( () => {
-      testBeatMap.addNotes(0);
-      testBeatMap.addNotes(1);
-      testBeatMap.addNotes(2);
-      testBeatMap.addNotes(3);
-      testBeatMap.drawBeatMap();
+      cyfBeatMap.addNotes(0);
+      cyfBeatMap.addNotes(1);
+      cyfBeatMap.addNotes(2);
+      cyfBeatMap.addNotes(3);
+      cyfBeatMap.drawBeatMap();
     }, 1);
     setTimeout( () => Song.playSong('cyf'), 1000);
 });

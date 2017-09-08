@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,15 +70,185 @@
 "use strict";
 
 
-var _beat = __webpack_require__(1);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Beat = function () {
+  function Beat(col) {
+    _classCallCheck(this, Beat);
+
+    this.col = col;
+    this.inTimingBar = false;
+    this.hit = false;
+    this.canvas = document.getElementById('' + this.col);
+    this.ctx = this.canvas.getContext("2d");
+    this.posX = 0;
+    this.posY = -this.canvas.height * .08;
+    this.drawBeat = this.drawBeat.bind(this);
+    this.handleTimingBar = this.handleTimingBar.bind(this);
+    this.handleHit = this.handleHit.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+    this.awesomeScore = this.awesomeScore.bind(this);
+    this.greatScore = this.greatScore.bind(this);
+  }
+
+  _createClass(Beat, [{
+    key: 'drawBeat',
+    value: function drawBeat() {
+      this.col > 0 && this.col < 3 ? this.ctx.fillStyle = 'rgba(0, 210, 255, .7)' : this.ctx.fillStyle = 'rgba(155, 255, 0, .7 )';
+      this.ctx.strokeStyle = 'black';
+
+      this.col === 0 ? this.ctx.fillRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) : this.ctx.fillRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
+
+      this.col === 0 ? this.ctx.strokeRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) : this.ctx.strokeRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
+    }
+  }, {
+    key: 'handleTimingBar',
+    value: function handleTimingBar() {
+      this.inTimingBar = true;
+    }
+  }, {
+    key: 'handleHit',
+    value: function handleHit() {
+      this.hit = true;
+    }
+  }, {
+    key: 'handleRemove',
+    value: function handleRemove() {
+      if (this.hit === true && this.inTimingBar === true) {
+        //remove block
+      }
+    }
+  }, {
+    key: 'awesomeScore',
+    value: function awesomeScore() {
+      return this.posY >= this.canvas.height * .71 && this.posY <= this.canvas.height * .81;
+    }
+  }, {
+    key: 'greatScore',
+    value: function greatScore() {
+      return this.posY >= this.canvas.height * .69 && this.posY <= this.canvas.height * .83;
+    }
+  }]);
+
+  return Beat;
+}();
+
+exports.default = Beat;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _beat = __webpack_require__(0);
 
 var _beat2 = _interopRequireDefault(_beat);
 
-var _beat_column = __webpack_require__(2);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var BeatColumn = function () {
+  function BeatColumn(col) {
+    _classCallCheck(this, BeatColumn);
+
+    this.col = col;
+    this.canvas = document.getElementById("" + this.col);
+    this.ctx = this.canvas.getContext("2d");
+    this.beats = [];
+    this.addBeat = this.addBeat.bind(this);
+    this.drawBeats = this.drawBeats.bind(this);
+    this.removeBeats = this.removeBeats.bind(this);
+    this.handleScoring = this.handleScoring.bind(this);
+  }
+
+  _createClass(BeatColumn, [{
+    key: "addBeat",
+    value: function addBeat() {
+      var beat = new _beat2.default(this.col);
+      this.beats.push(beat);
+    }
+  }, {
+    key: "drawBeats",
+    value: function drawBeats() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      // this.ctx.save();
+      if (this.beats.length > 0) {
+        this.beats.forEach(function (beat) {
+          beat.posY += 2;
+          beat.drawBeat();
+        });
+      }
+    }
+  }, {
+    key: "removeBeats",
+    value: function removeBeats(score) {
+      var _this = this;
+
+      var pastBeats = 0;
+      if (this.beats.length > 0) {
+        this.beats.forEach(function (beat, idx) {
+          if (beat.posY >= _this.canvas.height * .75 - _this.canvas.height * .08) {
+            pastBeats++;
+            score += _this.handleScoring(beat);
+            beat.handleRemove();
+            return score;
+          }
+        });
+      }
+      this.beats.splice(0, pastBeats);
+    }
+  }, {
+    key: "handleScoring",
+    value: function handleScoring(beat) {
+      if (beat.awesomeScore()) {
+        console.log("AWESOME!");
+        return 10;
+      } else if (beat.greatScore()) {
+        console.log("Great!");
+        return 5;
+      } else {
+        console.log("Miss :(");
+        return 0;
+      }
+    }
+  }]);
+
+  return BeatColumn;
+}();
+
+exports.default = BeatColumn;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _beat = __webpack_require__(0);
+
+var _beat2 = _interopRequireDefault(_beat);
+
+var _beat_column = __webpack_require__(1);
 
 var _beat_column2 = _interopRequireDefault(_beat_column);
 
-var _songs = __webpack_require__(3);
+var _songs = __webpack_require__(5);
 
 var Song = _interopRequireWildcard(_songs);
 
@@ -163,23 +333,23 @@ document.addEventListener('DOMContentLoaded', function () {
       //   //navigate right menu?
       //   break;
       case 70:
-        console.log("f");
         keyHit(0, "f");
+        cyfBeatMap.keyHit(0);
         //press key 1
         break;
       case 71:
-        console.log("g");
         keyHit(1, "g");
+        cyfBeatMap.keyHit(1);
         //press key 2
         break;
       case 72:
-        console.log("h");
         keyHit(2, "h");
+        cyfBeatMap.keyHit(2);
         //press key 3
         break;
       case 74:
-        console.log("j");
         keyHit(3, "j");
+        cyfBeatMap.keyHit(3);
         //press key 4
         break;
       default:
@@ -187,25 +357,20 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   window.addEventListener('keyup', function (event) {
-    // console.log(event.keyCode);
     switch (event.keyCode) {
       case 70:
-        console.log("f up");
         keyUp(0, "f");
         //press key 1
         break;
       case 71:
-        console.log("g up");
         keyUp(1, "g");
         //press key 2
         break;
       case 72:
-        console.log("h up");
         keyUp(2, "h");
         //press key 3
         break;
       case 74:
-        console.log("j up");
         keyUp(3, "j");
         //press key 4
         break;
@@ -213,18 +378,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  var testNotes0 = [400, 950];
-  var testNotes1 = [800, 850, 950];
-  var testNotes2 = [800, 850];
-  var testNotes3 = [400];
+  var cyfNotes0 = [400, 950, 1760, 2000, 2220];
+  var cyfNotes1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
+  var cyfNotes2 = [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
+  var cyfNotes3 = [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
 
-  var testBeatMap = new _beatmap2.default(testNotes0, testNotes1, testNotes2, testNotes3);
+  var cyfBeatMap = new _beatmap2.default(cyfNotes0, cyfNotes1, cyfNotes2, cyfNotes3);
   setInterval(function () {
-    testBeatMap.addNotes(0);
-    testBeatMap.addNotes(1);
-    testBeatMap.addNotes(2);
-    testBeatMap.addNotes(3);
-    testBeatMap.drawBeatMap();
+    cyfBeatMap.addNotes(0);
+    cyfBeatMap.addNotes(1);
+    cyfBeatMap.addNotes(2);
+    cyfBeatMap.addNotes(3);
+    cyfBeatMap.drawBeatMap();
   }, 1);
   setTimeout(function () {
     return Song.playSong('cyf');
@@ -232,199 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Beat = function () {
-  function Beat(col) {
-    _classCallCheck(this, Beat);
-
-    this.col = col;
-    this.inTimingBar = false;
-    this.hit = false;
-    this.canvas = document.getElementById('' + this.col);
-    this.ctx = this.canvas.getContext("2d");
-    this.posX = 0;
-    this.posY = -this.canvas.height * .08;
-    this.drawBeat = this.drawBeat.bind(this);
-    this.handleTimingBar = this.handleTimingBar.bind(this);
-    this.handleHit = this.handleHit.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
-  }
-
-  _createClass(Beat, [{
-    key: 'drawBeat',
-    value: function drawBeat() {
-      this.col > 0 && this.col < 3 ? this.ctx.fillStyle = 'rgba(0, 210, 255, .7)' : this.ctx.fillStyle = 'rgba(155, 255, 0, .7 )';
-      this.ctx.strokeStyle = 'black';
-
-      this.col === 0 ? this.ctx.fillRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) : this.ctx.fillRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
-
-      this.col === 0 ? this.ctx.strokeRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) : this.ctx.strokeRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
-    }
-  }, {
-    key: 'handleTimingBar',
-    value: function handleTimingBar() {
-      this.inTimingBar = true;
-    }
-  }, {
-    key: 'handleHit',
-    value: function handleHit() {
-      this.hit = true;
-    }
-  }, {
-    key: 'handleRemove',
-    value: function handleRemove() {
-      if (this.hit === true && this.inTimingBar === true) {
-        //remove block
-      }
-    }
-  }]);
-
-  return Beat;
-}();
-
-exports.default = Beat;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _beat = __webpack_require__(1);
-
-var _beat2 = _interopRequireDefault(_beat);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var BeatColumn = function () {
-  function BeatColumn(col) {
-    _classCallCheck(this, BeatColumn);
-
-    this.col = col;
-    this.canvas = document.getElementById("" + this.col);
-    this.ctx = this.canvas.getContext("2d");
-    this.beats = [];
-    this.addBeat = this.addBeat.bind(this);
-    this.drawBeats = this.drawBeats.bind(this);
-    this.removeBeats = this.removeBeats.bind(this);
-    this.handleScoring = this.handleScoring.bind(this);
-  }
-
-  _createClass(BeatColumn, [{
-    key: "addBeat",
-    value: function addBeat() {
-      var beat = new _beat2.default(this.col);
-      this.beats.push(beat);
-    }
-  }, {
-    key: "drawBeats",
-    value: function drawBeats() {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      // this.ctx.save();
-      if (this.beats.length > 0) {
-        this.beats.forEach(function (beat) {
-          beat.posY += 2;
-          beat.drawBeat();
-        });
-      }
-    }
-  }, {
-    key: "removeBeats",
-    value: function removeBeats() {
-      var _this = this;
-
-      if (this.beats.length > 0) {
-        this.beats.forEach(function (beat, idx) {
-          if (beat.hit === true && beat.inTimingBar === true) {
-            _this.handleScoring(beat);
-            beat.handleRemove();
-            _this.beats.splice(idx, 1);
-          }
-        });
-      }
-    }
-  }, {
-    key: "handleScoring",
-    value: function handleScoring(beat) {}
-  }]);
-
-  return BeatColumn;
-}();
-
-exports.default = BeatColumn;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.playSong = playSong;
-exports.pauseSong = pauseSong;
-exports.stopSong = stopSong;
-exports.resetSong = resetSong;
-
-var _beat = __webpack_require__(1);
-
-var _beat2 = _interopRequireDefault(_beat);
-
-var _beat_column = __webpack_require__(2);
-
-var _beat_column2 = _interopRequireDefault(_beat_column);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function playSong(songFile) {
-  var song = document.getElementById('' + songFile);
-  song.play();
-  //start notes
-}
-
-function pauseSong(songFile) {
-  var song = document.getElementById('' + songFile);
-  song.pause();
-}
-
-function stopSong(songFile) {
-  var song = document.getElementById('' + songFile);
-  song.pause();
-  song.currentTime = 0;
-}
-
-function resetSong(songFile) {
-  var song = document.getElementById('' + songFile);
-  song.pause();
-  song.currentTime = 0;
-  song.play();
-}
-
-/***/ }),
+/* 3 */,
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -437,11 +410,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _beat = __webpack_require__(1);
+var _beat = __webpack_require__(0);
 
 var _beat2 = _interopRequireDefault(_beat);
 
-var _beat_column = __webpack_require__(2);
+var _beat_column = __webpack_require__(1);
 
 var _beat_column2 = _interopRequireDefault(_beat_column);
 
@@ -468,23 +441,22 @@ var BeatMap = function () {
       2: new _beat_column2.default(2),
       3: new _beat_column2.default(3)
     };
-
-    this.upTime = this.upTime.bind(this);
+    this.score = 0;
     this.addNotes = this.addNotes.bind(this);
+    this.keyHit = this.keyHit.bind(this);
   }
 
   _createClass(BeatMap, [{
     key: 'addNotes',
     value: function addNotes(colNum) {
-      if (this.notes['' + colNum][0] <= this.time) {
-        this.cols['' + colNum].addBeat(colNum);
-        this.notes['' + colNum].shift();
+      if (this.notes[colNum][0] <= this.time) {
+        this.cols[colNum].addBeat(colNum);
+        this.notes[colNum].shift();
       }
     }
   }, {
     key: 'drawBeatMap',
     value: function drawBeatMap() {
-      debugger;
       this.cols[0].drawBeats();
       this.cols[1].drawBeats();
       this.cols[2].drawBeats();
@@ -492,9 +464,9 @@ var BeatMap = function () {
       this.time += 1;
     }
   }, {
-    key: 'upTime',
-    value: function upTime() {
-      this.time;
+    key: 'keyHit',
+    value: function keyHit(colNum) {
+      this.cols[colNum].removeBeats(this.score);
     }
   }]);
 
@@ -509,6 +481,44 @@ var BeatMap = function () {
 // let testBeatMap = new BeatMap(testNotes0, testNotes1, testNotes2, testNotes3);
 
 exports.default = BeatMap;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.playSong = playSong;
+exports.pauseSong = pauseSong;
+exports.stopSong = stopSong;
+exports.resetSong = resetSong;
+function playSong(songFile) {
+  var song = document.getElementById("" + songFile);
+  song.play();
+  //start notes
+}
+
+function pauseSong(songFile) {
+  var song = document.getElementById("" + songFile);
+  song.pause();
+}
+
+function stopSong(songFile) {
+  var song = document.getElementById("" + songFile);
+  song.pause();
+  song.currentTime = 0;
+}
+
+function resetSong(songFile) {
+  var song = document.getElementById("" + songFile);
+  song.pause();
+  song.currentTime = 0;
+  song.play();
+}
 
 /***/ })
 /******/ ]);

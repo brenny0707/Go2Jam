@@ -11,13 +11,15 @@ class Beat {
     this.handleTimingBar = this.handleTimingBar.bind(this);
     this.handleHit = this.handleHit.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.awesomeScore = this.awesomeScore.bind(this);
+    this.greatScore = this.greatScore.bind(this);
   }
 
   drawBeat() {
     this.col > 0 && this.col < 3 ?
     this.ctx.fillStyle = 'rgba(0, 210, 255, .7)':
     this.ctx.fillStyle = 'rgba(155, 255, 0, .7 )';
-    this.ctx.strokeStyle = 'black'
+    this.ctx.strokeStyle = 'black';
 
     this.col === 0 ? this.ctx.fillRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) :
     this.ctx.fillRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
@@ -38,6 +40,13 @@ class Beat {
     if (this.hit === true && this.inTimingBar === true) {
       //remove block
     }
+  }
+
+  awesomeScore() {
+    return this.posY >= this.canvas.height * .71 && this.posY <= this.canvas.height * .81;
+  }
+  greatScore() {
+    return this.posY >= this.canvas.height * .69 && this.posY <= this.canvas.height * .83;
   }
 }
 

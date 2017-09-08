@@ -18,19 +18,18 @@ class BeatMap {
       2: new BeatColumn(2),
       3: new BeatColumn(3),
     };
-
-    this.upTime = this.upTime.bind(this);
+    this.score = 0;
     this.addNotes = this.addNotes.bind(this);
+    this.keyHit = this.keyHit.bind(this);
   }
   addNotes(colNum) {
-    if(this.notes[`${colNum}`][0] <= this.time) {
-      this.cols[`${colNum}`].addBeat(colNum);
-      this.notes[`${colNum}`].shift();
+    if(this.notes[colNum][0] <= this.time) {
+      this.cols[colNum].addBeat(colNum);
+      this.notes[colNum].shift();
     }
   }
 
   drawBeatMap() {
-    debugger
       this.cols[0].drawBeats();
       this.cols[1].drawBeats();
       this.cols[2].drawBeats();
@@ -38,8 +37,8 @@ class BeatMap {
       this.time += 1;
   }
 
-  upTime() {
-    this.time ;
+  keyHit(colNum) {
+    this.cols[colNum].removeBeats(this.score);
   }
 }
 
