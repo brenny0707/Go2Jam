@@ -269,116 +269,25 @@ var _song_list = __webpack_require__(6);
 
 var _song_list2 = _interopRequireDefault(_song_list);
 
+var _game = __webpack_require__(8);
+
+var _game2 = _interopRequireDefault(_game);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
-  var canvas = document.getElementById('board');
-  var ctx = canvas.getContext('2d');
-  drawBorder();
-  var firedKeys = {
-    f: false,
-    g: false,
-    h: false,
-    j: false
-  };
-  function drawBorder() {
-    ctx.fillStyle = 'rgba(255, 215, 0, .6)';
-    var timingBar = ctx.fillRect(0, canvas.height * .75, canvas.width, canvas.height * .1);
-    ctx.fillStyle = 'black';
-    for (var x = canvas.width / 4; x < canvas.width; x += canvas.width / 4) {
-      ctx.fillRect(x, 0, 5, 700);
-      ctx.font = '20px serif';
-      ctx.fillText('f', canvas.width * .11, canvas.height * .81);
-      ctx.fillText('g', canvas.width * .36, canvas.height * .81);
-      ctx.fillText('h', canvas.width * .61, canvas.height * .81);
-      ctx.fillText('j', canvas.width * .86, canvas.height * .81);
-    }
-  }
 
-  function keyHit(num, key) {
-    if (firedKeys[key] === false) {
-      firedKeys[key] = true;
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.fillStyle = 'rgba(0, 0, 255, .6)';
-      ctx.fillRect(canvas.width * .25 * num, canvas.height * .75, canvas.width * .25, canvas.height * .1);
-    }
-  }
+    var game = new _game2.default();
+    game.drawBorder();
 
-  function keyUp(num, key) {
-    firedKeys[key] = false;
-    if (firedKeys["f"] === false && firedKeys["g"] === false && firedKeys["h"] === false && firedKeys["j"] === false) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawBorder();
-    } else {
-      ctx.clearRect(canvas.width * .25 * num, canvas.height * .75, canvas.width * .25, canvas.height * .1);
-      drawBorder();
-    }
-  }
-  var songChoice = "cyf";
-  var BMDifficulty = "hardBM";
-  var currentSong = _song_list2.default[songChoice];
-  var currentBeatMap = currentSong[BMDifficulty];
-  // debugger
+    var songChoice = "ba";
+    var BMDifficulty = "easyBM";
+    var currentSong = _song_list2.default[songChoice];
+    var currentBeatMap = currentSong[BMDifficulty];
 
-
-  function playCurrentSong(songTag, difficulty) {
-    // debugger
-    var selectedSong = _song_list2.default[songTag];
-    var selectedBeatMap = selectedSong[difficulty];
-    setInterval(function () {
-      selectedBeatMap.addNotes(0);
-      selectedBeatMap.addNotes(1);
-      selectedBeatMap.addNotes(2);
-      selectedBeatMap.addNotes(3);
-      selectedBeatMap.drawBeatMap();
-    }, 1);
-    setTimeout(function () {
-      return Song.playSong(selectedSong.songTag);
-    }, selectedSong.songOffset);
-
-    window.addEventListener('keydown', function (event) {
-      switch (event.keyCode) {
-        case 70:
-          keyHit(0, "f");
-          selectedBeatMap.keyHit(0);
-          break;
-        case 71:
-          keyHit(1, "g");
-          selectedBeatMap.keyHit(1);
-          break;
-        case 72:
-          keyHit(2, "h");
-          selectedBeatMap.keyHit(2);
-          break;
-        case 74:
-          keyHit(3, "j");
-          selectedBeatMap.keyHit(3);
-          break;
-        default:
-      }
-    });
-
-    window.addEventListener('keyup', function (event) {
-      switch (event.keyCode) {
-        case 70:
-          keyUp(0, "f");
-          break;
-        case 71:
-          keyUp(1, "g");
-          break;
-        case 72:
-          keyUp(2, "h");
-          break;
-        case 74:
-          keyUp(3, "j");
-          break;
-        default:
-      }
-    });
-  }
-  playCurrentSong(songChoice, BMDifficulty);
+    game.playCurrentSong(songChoice, BMDifficulty);
 });
 
 /***/ }),
@@ -524,10 +433,15 @@ var _cyf = __webpack_require__(7);
 
 var _cyf2 = _interopRequireDefault(_cyf);
 
+var _ba = __webpack_require__(9);
+
+var _ba2 = _interopRequireDefault(_ba);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SongList = {
-  cyf: _cyf2.default
+  cyf: _cyf2.default,
+  ba: _ba2.default
 };
 
 exports.default = SongList;
@@ -568,6 +482,202 @@ var music = {
   songOffset: 1000,
   easyBM: cyfEasy,
   hardBM: cyfHard
+};
+
+exports.default = music;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _beat = __webpack_require__(0);
+
+var _beat2 = _interopRequireDefault(_beat);
+
+var _beat_column = __webpack_require__(1);
+
+var _beat_column2 = _interopRequireDefault(_beat_column);
+
+var _songs = __webpack_require__(5);
+
+var Song = _interopRequireWildcard(_songs);
+
+var _beatmap = __webpack_require__(4);
+
+var _beatmap2 = _interopRequireDefault(_beatmap);
+
+var _song_list = __webpack_require__(6);
+
+var _song_list2 = _interopRequireDefault(_song_list);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Game = function () {
+  function Game() {
+    _classCallCheck(this, Game);
+
+    this.canvas = document.getElementById('board');
+    this.ctx = this.canvas.getContext('2d');
+    this.firedKeys = {
+      f: false,
+      g: false,
+      h: false,
+      j: false
+    };
+    this.drawBorder = this.drawBorder.bind(this);
+    this.keyHit = this.keyHit.bind(this);
+    this.keyUp = this.keyUp.bind(this);
+    this.playCurrentSong = this.playCurrentSong.bind(this);
+  }
+
+  _createClass(Game, [{
+    key: 'drawBorder',
+    value: function drawBorder() {
+      this.ctx.fillStyle = 'rgba(255, 215, 0, .6)';
+      var timingBar = this.ctx.fillRect(0, this.canvas.height * .75, this.canvas.width, this.canvas.height * .1);
+      this.ctx.fillStyle = 'black';
+      for (var x = this.canvas.width / 4; x < this.canvas.width; x += this.canvas.width / 4) {
+        this.ctx.fillRect(x, 0, 5, 700);
+        this.ctx.font = '20px serif';
+        this.ctx.fillText('f', this.canvas.width * .11, this.canvas.height * .81);
+        this.ctx.fillText('g', this.canvas.width * .36, this.canvas.height * .81);
+        this.ctx.fillText('h', this.canvas.width * .61, this.canvas.height * .81);
+        this.ctx.fillText('j', this.canvas.width * .86, this.canvas.height * .81);
+      }
+    }
+  }, {
+    key: 'keyHit',
+    value: function keyHit(num, key) {
+      if (this.firedKeys[key] === false) {
+        this.firedKeys[key] = true;
+        this.ctx.globalCompositeOperation = 'source-over';
+        this.ctx.fillStyle = 'rgba(0, 0, 255, .6)';
+        this.ctx.fillRect(this.canvas.width * .25 * num, this.canvas.height * .75, this.canvas.width * .25, this.canvas.height * .1);
+      }
+    }
+  }, {
+    key: 'keyUp',
+    value: function keyUp(num, key) {
+      this.firedKeys[key] = false;
+      if (this.firedKeys["f"] === false && this.firedKeys["g"] === false && this.firedKeys["h"] === false && this.firedKeys["j"] === false) {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawBorder();
+      } else {
+        this.ctx.clearRect(this.canvas.width * .25 * num, this.canvas.height * .75, this.canvas.width * .25, this.canvas.height * .1);
+        this.drawBorder();
+      }
+    }
+  }, {
+    key: 'playCurrentSong',
+    value: function playCurrentSong(songTag, difficulty) {
+      var selectedSong = _song_list2.default[songTag];
+      var selectedBeatMap = selectedSong[difficulty];
+      setInterval(function () {
+        selectedBeatMap.addNotes(0);
+        selectedBeatMap.addNotes(1);
+        selectedBeatMap.addNotes(2);
+        selectedBeatMap.addNotes(3);
+        selectedBeatMap.drawBeatMap();
+      }, 1);
+      setTimeout(function () {
+        return Song.playSong(selectedSong.songTag);
+      }, selectedSong.songOffset);
+      window.addEventListener('keydown', function (event) {
+        switch (event.keyCode) {
+          case 70:
+            this.keyHit(0, "f");
+            selectedBeatMap.keyHit(0);
+            break;
+          case 71:
+            this.keyHit(1, "g");
+            selectedBeatMap.keyHit(1);
+            break;
+          case 72:
+            this.keyHit(2, "h");
+            selectedBeatMap.keyHit(2);
+            break;
+          case 74:
+            this.keyHit(3, "j");
+            selectedBeatMap.keyHit(3);
+            break;
+          default:
+        }
+      }.bind(this), false);
+
+      window.addEventListener('keyup', function (event) {
+        switch (event.keyCode) {
+          case 70:
+            this.keyUp(0, "f");
+            break;
+          case 71:
+            this.keyUp(1, "g");
+            break;
+          case 72:
+            this.keyUp(2, "h");
+            break;
+          case 74:
+            this.keyUp(3, "j");
+            break;
+          default:
+        }
+      }.bind(this), false);
+    }
+  }]);
+
+  return Game;
+}();
+
+exports.default = Game;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _beatmap = __webpack_require__(4);
+
+var _beatmap2 = _interopRequireDefault(_beatmap);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var baEasy0 = [400, 950];
+var baEasy1 = [800, 850, 1100];
+var baEasy2 = [1200];
+var baEasy3 = [];
+
+var baHard0 = [400, 950, 1760, 2000, 2220];
+var baHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
+var baHard2 = [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
+var baHard3 = [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
+
+var baEasy = new _beatmap2.default(baEasy0, baEasy1, baEasy2, baEasy3);
+var baHard = new _beatmap2.default(baHard0, baHard1, baHard2, baHard3);
+
+var music = {
+  title: "Bach Alive",
+  songTag: "ba",
+  songOffset: 1000,
+  easyBM: baEasy,
+  hardBM: baHard
 };
 
 exports.default = music;
