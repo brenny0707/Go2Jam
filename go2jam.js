@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillStyle = 'rgba(0, 0, 255, .6)';
         ctx.fillRect(canvas.width * .25 * num, canvas.height * .75, canvas.width * .25, canvas.height * .1);
-        //checkNote(), make sure to use the firedKeys object to check for all notes
       }
 
     }
@@ -51,90 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
     }
-    // 
-    //
-    // window.addEventListener('keydown', function(event) {
-    //   switch(event.keyCode) {
-    //     // case 32:
-    //     // console.log("space");
-    //     // //both space and enter count for same thing
-    //     // break;
-    //     // case 13:
-    //     // console.log("enter");
-    //     // //both space and enter count for same thing
-    //     // break;
-    //     // case 87:
-    //     //   console.log("w");
-    //     //   //navigate up menu
-    //     //   break;
-    //     // case 65:
-    //     //   console.log("a");
-    //     //   //navigate left menu?
-    //     //   break;
-    //     // case 83:
-    //     //   console.log("s");
-    //     //   //navigate down menu
-    //     //   break;
-    //     // case 68:
-    //     //   console.log("d");
-    //     //   //navigate right menu?
-    //     //   break;
-    //     case 70:
-    //       keyHit(0, "f");
-    //       selectedBeatMap.keyHit(0);
-    //       //press key 1
-    //       break;
-    //     case 71:
-    //       keyHit(1, "g");
-    //       selectedBeatMap.keyHit(1);
-    //       //press key 2
-    //       break;
-    //     case 72:
-    //       keyHit(2, "h");
-    //       selectedBeatMap.keyHit(2);
-    //       //press key 3
-    //       break;
-    //     case 74:
-    //       keyHit(3, "j");
-    //       selectedBeatMap.keyHit(3);
-    //       //press key 4
-    //       break;
-    //     default:
-    //   }
-    // });
-    //
-    // window.addEventListener('keyup', function(event) {
-    //   switch(event.keyCode) {
-    //     case 70:
-    //       keyUp(0, "f");
-    //       //press key 1
-    //       break;
-    //     case 71:
-    //       keyUp(1, "g");
-    //       //press key 2
-    //       break;
-    //     case 72:
-    //       keyUp(2, "h");
-    //       //press key 3
-    //       break;
-    //     case 74:
-    //       keyUp(3, "j");
-    //       //press key 4
-    //       break;
-    //     default:
-    //   }
-    // });
-
-    // let cyfNotes0 =
-    // [400, 950, 1760, 2000, 2220];
-    // let cyfNotes1 =
-    // [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
-    // let cyfNotes2 =
-    // [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
-    // let cyfNotes3 =
-    // [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
-
-    // let cyfBeatMap = new BeatMap(cyfNotes0, cyfNotes1, cyfNotes2, cyfNotes3);
     let songChoice = "cyf";
     let BMDifficulty = "hardBM";
     let currentSong = SongList[songChoice];
@@ -160,22 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
           case 70:
             keyHit(0, "f");
             selectedBeatMap.keyHit(0);
-            //press key 1
             break;
           case 71:
             keyHit(1, "g");
             selectedBeatMap.keyHit(1);
-            //press key 2
             break;
           case 72:
             keyHit(2, "h");
             selectedBeatMap.keyHit(2);
-            //press key 3
             break;
           case 74:
             keyHit(3, "j");
             selectedBeatMap.keyHit(3);
-            //press key 4
             break;
           default:
         }
@@ -185,31 +96,19 @@ document.addEventListener('DOMContentLoaded', () => {
         switch(event.keyCode) {
           case 70:
             keyUp(0, "f");
-            //press key 1
             break;
           case 71:
             keyUp(1, "g");
-            //press key 2
             break;
           case 72:
             keyUp(2, "h");
-            //press key 3
             break;
           case 74:
             keyUp(3, "j");
-            //press key 4
             break;
           default:
         }
       });
     }
     playCurrentSong(songChoice, BMDifficulty);
-    // setInterval( () => {
-    //   selectedBeatMap.addNotes(0);
-    //   selectedBeatMap.addNotes(1);
-    //   selectedBeatMap.addNotes(2);
-    //   selectedBeatMap.addNotes(3);
-    //   selectedBeatMap.drawBeatMap();
-    // }, 1);
-    // setTimeout( () => Song.playSong(selectedSong.songTag), 1000);
 });
