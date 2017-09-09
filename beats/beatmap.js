@@ -54,7 +54,7 @@ class BeatMap {
         this.comboCounter = 0;
       }
       this.time += 1;
-      this.displayScore();
+      // this.displayScore();
   }
 
   displayScore() {
