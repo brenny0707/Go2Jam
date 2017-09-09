@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -161,158 +161,7 @@ var _beat = __webpack_require__(0);
 
 var _beat2 = _interopRequireDefault(_beat);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var BeatColumn = function () {
-  function BeatColumn(col) {
-    _classCallCheck(this, BeatColumn);
-
-    this.col = col;
-    this.canvas = document.getElementById("" + this.col);
-    this.ctx = this.canvas.getContext("2d");
-    this.beats = [];
-    this.addBeat = this.addBeat.bind(this);
-    this.drawBeats = this.drawBeats.bind(this);
-    this.removeBeats = this.removeBeats.bind(this);
-    this.handleScoring = this.handleScoring.bind(this);
-  }
-
-  _createClass(BeatColumn, [{
-    key: "addBeat",
-    value: function addBeat() {
-      var beat = new _beat2.default(this.col);
-      this.beats.push(beat);
-    }
-  }, {
-    key: "drawBeats",
-    value: function drawBeats() {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      // this.ctx.save();
-      if (this.beats.length > 0) {
-        this.beats.forEach(function (beat) {
-          beat.posY += 2;
-          beat.drawBeat();
-        });
-      }
-    }
-  }, {
-    key: "removeBeats",
-    value: function removeBeats(comboCounter) {
-      var _this = this;
-
-      var scoring = { beatPoints: 0, combo: comboCounter };
-      var pastBeats = 0;
-      if (this.beats.length > 0) {
-        this.beats.forEach(function (beat, idx) {
-          if (beat.posY >= _this.canvas.height * .75 - _this.canvas.height * .08) {
-            pastBeats++;
-            var hitResult = _this.handleScoring(beat, comboCounter);
-            beat.handleRemove();
-            scoring.beatPoints += hitResult.points;
-            hitResult.success === false ? scoring.combo = 0 : scoring.combo++;
-          }
-        });
-      }
-      this.beats.splice(0, pastBeats);
-      return scoring;
-    }
-  }, {
-    key: "handleScoring",
-    value: function handleScoring(beat, combo) {
-      var hitResult = { points: null, success: true };
-      if (beat.awesomeScore()) {
-        // console.log("AWESOME!");
-        combo === 0 ? hitResult.points = 10 : hitResult.points = 10 * combo;
-      } else if (beat.greatScore()) {
-        // console.log("Great!");
-        combo === 0 ? hitResult.points = 10 : hitResult.points = 5 * combo;
-      } else {
-        // console.log("Miss :(");
-        hitResult.points = 0;
-        hitResult.success = false;
-      }
-      return hitResult;
-    }
-  }]);
-
-  return BeatColumn;
-}();
-
-exports.default = BeatColumn;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _beat = __webpack_require__(0);
-
-var _beat2 = _interopRequireDefault(_beat);
-
-var _beat_column = __webpack_require__(1);
-
-var _beat_column2 = _interopRequireDefault(_beat_column);
-
-var _songs = __webpack_require__(5);
-
-var Song = _interopRequireWildcard(_songs);
-
-var _beatmap = __webpack_require__(4);
-
-var _beatmap2 = _interopRequireDefault(_beatmap);
-
-var _song_list = __webpack_require__(6);
-
-var _song_list2 = _interopRequireDefault(_song_list);
-
-var _game = __webpack_require__(8);
-
-var _game2 = _interopRequireDefault(_game);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-document.addEventListener('DOMContentLoaded', function () {
-
-  var game = new _game2.default();
-  game.drawBorder();
-
-  document.addEventListener("click", function (event) {
-    if (event.target.type === "button") {
-      game.closeIntroModal();
-      var songChoice = event.target.name;
-      var BMDifficulty = event.target.value;
-      var currentSong = _song_list2.default[songChoice];
-      var currentBeatMap = currentSong[BMDifficulty];
-      game.playCurrentSong(songChoice, BMDifficulty);
-    }
-  });
-});
-
-/***/ }),
-/* 3 */,
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _beat = __webpack_require__(0);
-
-var _beat2 = _interopRequireDefault(_beat);
-
-var _beat_column = __webpack_require__(1);
+var _beat_column = __webpack_require__(2);
 
 var _beat_column2 = _interopRequireDefault(_beat_column);
 
@@ -396,7 +245,105 @@ var BeatMap = function () {
 exports.default = BeatMap;
 
 /***/ }),
-/* 5 */
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _beat = __webpack_require__(0);
+
+var _beat2 = _interopRequireDefault(_beat);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var BeatColumn = function () {
+  function BeatColumn(col) {
+    _classCallCheck(this, BeatColumn);
+
+    this.col = col;
+    this.canvas = document.getElementById("" + this.col);
+    this.ctx = this.canvas.getContext("2d");
+    this.beats = [];
+    this.addBeat = this.addBeat.bind(this);
+    this.drawBeats = this.drawBeats.bind(this);
+    this.removeBeats = this.removeBeats.bind(this);
+    this.handleScoring = this.handleScoring.bind(this);
+  }
+
+  _createClass(BeatColumn, [{
+    key: "addBeat",
+    value: function addBeat() {
+      var beat = new _beat2.default(this.col);
+      this.beats.push(beat);
+    }
+  }, {
+    key: "drawBeats",
+    value: function drawBeats() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      // this.ctx.save();
+      if (this.beats.length > 0) {
+        this.beats.forEach(function (beat) {
+          beat.posY += 2;
+          beat.drawBeat();
+        });
+      }
+    }
+  }, {
+    key: "removeBeats",
+    value: function removeBeats(comboCounter) {
+      var _this = this;
+
+      var scoring = { beatPoints: 0, combo: comboCounter };
+      var pastBeats = 0;
+      if (this.beats.length > 0) {
+        this.beats.forEach(function (beat, idx) {
+          if (beat.posY >= _this.canvas.height * .75 - _this.canvas.height * .08) {
+            pastBeats++;
+            var hitResult = _this.handleScoring(beat, comboCounter);
+            beat.handleRemove();
+            scoring.beatPoints += hitResult.points;
+            hitResult.success === false ? scoring.combo = 0 : scoring.combo++;
+          }
+        });
+      }
+      this.beats.splice(0, pastBeats);
+      return scoring;
+    }
+  }, {
+    key: "handleScoring",
+    value: function handleScoring(beat, combo) {
+      var hitResult = { points: null, success: true };
+      if (beat.awesomeScore()) {
+        // console.log("AWESOME!");
+        combo === 0 ? hitResult.points = 10 : hitResult.points = 10 * combo;
+      } else if (beat.greatScore()) {
+        // console.log("Great!");
+        combo === 0 ? hitResult.points = 10 : hitResult.points = 5 * combo;
+      } else {
+        // console.log("Miss :(");
+        hitResult.points = 0;
+        hitResult.success = false;
+      }
+      return hitResult;
+    }
+  }]);
+
+  return BeatColumn;
+}();
+
+exports.default = BeatColumn;
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -434,7 +381,7 @@ function resetSong(songFile) {
 }
 
 /***/ }),
-/* 6 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -444,11 +391,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _cyf = __webpack_require__(7);
+var _cyf = __webpack_require__(6);
 
 var _cyf2 = _interopRequireDefault(_cyf);
 
-var _ba = __webpack_require__(9);
+var _ba = __webpack_require__(7);
 
 var _ba2 = _interopRequireDefault(_ba);
 
@@ -462,7 +409,59 @@ var SongList = {
 exports.default = SongList;
 
 /***/ }),
-/* 7 */
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _beat = __webpack_require__(0);
+
+var _beat2 = _interopRequireDefault(_beat);
+
+var _beat_column = __webpack_require__(2);
+
+var _beat_column2 = _interopRequireDefault(_beat_column);
+
+var _songs = __webpack_require__(3);
+
+var Song = _interopRequireWildcard(_songs);
+
+var _beatmap = __webpack_require__(1);
+
+var _beatmap2 = _interopRequireDefault(_beatmap);
+
+var _song_list = __webpack_require__(4);
+
+var _song_list2 = _interopRequireDefault(_song_list);
+
+var _game = __webpack_require__(8);
+
+var _game2 = _interopRequireDefault(_game);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  var game = new _game2.default();
+  game.drawBorder();
+
+  document.addEventListener("click", function (event) {
+    if (event.target.type === "button") {
+      game.closeIntroModal();
+      var songChoice = event.target.name;
+      var BMDifficulty = event.target.value;
+      var currentSong = _song_list2.default[songChoice];
+      var currentBeatMap = currentSong[BMDifficulty];
+      game.playCurrentSong(songChoice, BMDifficulty);
+    }
+  });
+});
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -472,16 +471,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _beatmap = __webpack_require__(4);
+var _beatmap = __webpack_require__(1);
 
 var _beatmap2 = _interopRequireDefault(_beatmap);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var cyfEasy0 = [400, 950, 1950, 2600, 4140];
-var cyfEasy1 = [800, 850, 1100, 1850, 2900, 3290, 3860, 4280, 5480, 5620, 5720, 5820, 5960, 6100];
-var cyfEasy2 = [1200, 1400, 1700, 2230, 3150, 3580, 4000, 4420, 4560, 4700, 4840, 4980, 5120, 5260, 5410, 5550, 5650, 5750, 5890, 6020, 6140];
-var cyfEasy3 = [1550, 2130, 2330, 2430, 3430, 3720, 6210];
+var cyfEasy0 = [400, 950, 1950, 2600, 4140, 4700, 6510, 7050, 8010, 8740, 9160, 9290, 10210, 10460, 10810, 11220, 11790, 12320, 12750, 13020, 13320, 13990, 14550, 15230, 16220, 16780, 17450, 18170, 19160];
+
+var cyfEasy1 = [800, 850, 1100, 1850, 2900, 3290, 3860, 4280, 4980, 5550, 5820, 6100, 6780, 7050, 7340, 7870, 8420, 8870, 9290, 9570, 10080, 10580, 11510, 12060, 12610, 12890, 13160, 13720, 14290, 15090, 15810, 15970, 16500, 17320, 18090, 18300, 19060];
+
+var cyfEasy2 = [1200, 1400, 1700, 2230, 3150, 3580, 4000, 4420, 4560, 5120, 5260, 5410, 5650, 5960, 6510, 6910, 7180, 7750, 8300, 9020, 9440, 9690, 9970, 10700, 11090, 11650, 12190, 12610, 12890, 13160, 13590, 13870, 14160, 14670, 14970, 15520, 16090, 16380, 16930, 17190, 17750, 18000, 18410, 18620, 18920, 19440];
+
+var cyfEasy3 = [1550, 2130, 2330, 2430, 3430, 3720, 4840, 6210, 6640, 7480, 8530, 8630, 8740, 11370, 11920, 12470, 12750, 13020, 13460, 14420, 15660, 16640, 17880, 18780, 19340, 19550, 19650];
 
 var cyfHard0 = [400, 950, 1760, 2000, 2220];
 var cyfHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
@@ -497,6 +499,46 @@ var music = {
   songOffset: 1000,
   easy: cyfEasy,
   hard: cyfHard
+};
+
+exports.default = music;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _beatmap = __webpack_require__(1);
+
+var _beatmap2 = _interopRequireDefault(_beatmap);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var baEasy0 = [400, 950];
+var baEasy1 = [800, 850, 1100];
+var baEasy2 = [1200];
+var baEasy3 = [];
+
+var baHard0 = [400, 950, 1760, 2000, 2220];
+var baHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
+var baHard2 = [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
+var baHard3 = [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
+
+var baEasy = new _beatmap2.default(baEasy0, baEasy1, baEasy2, baEasy3);
+var baHard = new _beatmap2.default(baHard0, baHard1, baHard2, baHard3);
+
+var music = {
+  title: "Bach Alive",
+  songTag: "ba",
+  songOffset: 1000,
+  easy: baEasy,
+  hard: baHard
 };
 
 exports.default = music;
@@ -518,19 +560,19 @@ var _beat = __webpack_require__(0);
 
 var _beat2 = _interopRequireDefault(_beat);
 
-var _beat_column = __webpack_require__(1);
+var _beat_column = __webpack_require__(2);
 
 var _beat_column2 = _interopRequireDefault(_beat_column);
 
-var _songs = __webpack_require__(5);
+var _songs = __webpack_require__(3);
 
 var Song = _interopRequireWildcard(_songs);
 
-var _beatmap = __webpack_require__(4);
+var _beatmap = __webpack_require__(1);
 
 var _beatmap2 = _interopRequireDefault(_beatmap);
 
-var _song_list = __webpack_require__(6);
+var _song_list = __webpack_require__(4);
 
 var _song_list2 = _interopRequireDefault(_song_list);
 
@@ -665,46 +707,6 @@ var Game = function () {
 }();
 
 exports.default = Game;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _beatmap = __webpack_require__(4);
-
-var _beatmap2 = _interopRequireDefault(_beatmap);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var baEasy0 = [400, 950];
-var baEasy1 = [800, 850, 1100];
-var baEasy2 = [1200];
-var baEasy3 = [];
-
-var baHard0 = [400, 950, 1760, 2000, 2220];
-var baHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
-var baHard2 = [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
-var baHard3 = [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
-
-var baEasy = new _beatmap2.default(baEasy0, baEasy1, baEasy2, baEasy3);
-var baHard = new _beatmap2.default(baHard0, baHard1, baHard2, baHard3);
-
-var music = {
-  title: "Bach Alive",
-  songTag: "ba",
-  songOffset: 1000,
-  easy: baEasy,
-  hard: baHard
-};
-
-exports.default = music;
 
 /***/ })
 /******/ ]);
