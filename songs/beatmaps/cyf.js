@@ -1,13 +1,13 @@
 import BeatMap from '../../beats/beatmap.js';
 
 const cyfEasy0 =
-[400, 950];
+[400, 950, 1950, 2600];
 const cyfEasy1 =
-[800, 850, 1100];
+[800, 850, 1100, 1850, 2900];
 const cyfEasy2 =
-[1200];
+[1200, 1400, 1700, 2230, 3150];
 const cyfEasy3 =
-[];
+[1550, 2130, 2330, 2430];
 
 const cyfHard0 =
 [400, 950, 1760, 2000, 2220];
@@ -26,8 +26,8 @@ const music = {
   title: "Can You Feel",
   songTag: "cyf",
   songOffset: 1000,
-  easyBM: cyfEasy,
-  hardBM: cyfHard,
+  easy: cyfEasy,
+  hard: cyfHard,
 };
 
 export default music;

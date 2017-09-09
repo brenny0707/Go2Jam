@@ -19,6 +19,7 @@ class Game {
     this.keyHit = this.keyHit.bind(this);
     this.keyUp = this.keyUp.bind(this);
     this.playCurrentSong = this.playCurrentSong.bind(this);
+    this.closeIntroModal = this.closeIntroModal.bind(this);
   }
   drawBorder() {
     this.ctx.fillStyle = 'rgba(255, 215, 0, .6)';
@@ -27,13 +28,19 @@ class Game {
     for (let x = this.canvas.width / 4; x < this.canvas.width; x += this.canvas.width / 4) {
       this.ctx.fillRect(x, 0, 5, 700);
       this.ctx.font = '20px serif';
-      this.ctx.fillText('f', this.canvas.width * .11, this.canvas.height * .81);
-      this.ctx.fillText('g', this.canvas.width * .36, this.canvas.height * .81);
-      this.ctx.fillText('h', this.canvas.width * .61, this.canvas.height * .81);
-      this.ctx.fillText('j', this.canvas.width * .86, this.canvas.height * .81);
+      this.ctx.fillText('F', this.canvas.width * .11, this.canvas.height * .81);
+      this.ctx.fillText('G', this.canvas.width * .36, this.canvas.height * .81);
+      this.ctx.fillText('H', this.canvas.width * .61, this.canvas.height * .81);
+      this.ctx.fillText('J', this.canvas.width * .86, this.canvas.height * .81);
     }
   }
+  closeIntroModal() {
+    const modal = document.getElementById('intro-modal');
+    const modalContainer = document.getElementById('modal-container');
+    modalContainer.className = 'hidden';
+    modal.className = 'hidden';
 
+  }
   keyHit(num, key) {
     if (this.firedKeys[key] === false) {
       this.firedKeys[key] = true;

@@ -279,15 +279,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    var game = new _game2.default();
-    game.drawBorder();
+  var game = new _game2.default();
+  game.drawBorder();
 
-    var songChoice = "ba";
-    var BMDifficulty = "easyBM";
-    var currentSong = _song_list2.default[songChoice];
-    var currentBeatMap = currentSong[BMDifficulty];
-
-    game.playCurrentSong(songChoice, BMDifficulty);
+  document.addEventListener("click", function (event) {
+    if (event.target.type === "button") {
+      game.closeIntroModal();
+      var songChoice = event.target.name;
+      var BMDifficulty = event.target.value;
+      var currentSong = _song_list2.default[songChoice];
+      var currentBeatMap = currentSong[BMDifficulty];
+      game.playCurrentSong(songChoice, BMDifficulty);
+    }
+  });
 });
 
 /***/ }),
@@ -463,10 +467,10 @@ var _beatmap2 = _interopRequireDefault(_beatmap);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var cyfEasy0 = [400, 950];
-var cyfEasy1 = [800, 850, 1100];
-var cyfEasy2 = [1200];
-var cyfEasy3 = [];
+var cyfEasy0 = [400, 950, 1950, 2600];
+var cyfEasy1 = [800, 850, 1100, 1850, 2900];
+var cyfEasy2 = [1200, 1400, 1700, 2230, 3150];
+var cyfEasy3 = [1550, 2130, 2330, 2430];
 
 var cyfHard0 = [400, 950, 1760, 2000, 2220];
 var cyfHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
@@ -480,8 +484,8 @@ var music = {
   title: "Can You Feel",
   songTag: "cyf",
   songOffset: 1000,
-  easyBM: cyfEasy,
-  hardBM: cyfHard
+  easy: cyfEasy,
+  hard: cyfHard
 };
 
 exports.default = music;
@@ -541,6 +545,7 @@ var Game = function () {
     this.keyHit = this.keyHit.bind(this);
     this.keyUp = this.keyUp.bind(this);
     this.playCurrentSong = this.playCurrentSong.bind(this);
+    this.closeIntroModal = this.closeIntroModal.bind(this);
   }
 
   _createClass(Game, [{
@@ -552,11 +557,19 @@ var Game = function () {
       for (var x = this.canvas.width / 4; x < this.canvas.width; x += this.canvas.width / 4) {
         this.ctx.fillRect(x, 0, 5, 700);
         this.ctx.font = '20px serif';
-        this.ctx.fillText('f', this.canvas.width * .11, this.canvas.height * .81);
-        this.ctx.fillText('g', this.canvas.width * .36, this.canvas.height * .81);
-        this.ctx.fillText('h', this.canvas.width * .61, this.canvas.height * .81);
-        this.ctx.fillText('j', this.canvas.width * .86, this.canvas.height * .81);
+        this.ctx.fillText('F', this.canvas.width * .11, this.canvas.height * .81);
+        this.ctx.fillText('G', this.canvas.width * .36, this.canvas.height * .81);
+        this.ctx.fillText('H', this.canvas.width * .61, this.canvas.height * .81);
+        this.ctx.fillText('J', this.canvas.width * .86, this.canvas.height * .81);
       }
+    }
+  }, {
+    key: 'closeIntroModal',
+    value: function closeIntroModal() {
+      var modal = document.getElementById('intro-modal');
+      var modalContainer = document.getElementById('modal-container');
+      modalContainer.className = 'hidden';
+      modal.className = 'hidden';
     }
   }, {
     key: 'keyHit',
@@ -676,8 +689,8 @@ var music = {
   title: "Bach Alive",
   songTag: "ba",
   songOffset: 1000,
-  easyBM: baEasy,
-  hardBM: baHard
+  easy: baEasy,
+  hard: baHard
 };
 
 exports.default = music;

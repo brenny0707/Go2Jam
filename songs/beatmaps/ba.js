@@ -26,8 +26,8 @@ const music = {
   title: "Bach Alive",
   songTag: "ba",
   songOffset: 1000,
-  easyBM: baEasy,
-  hardBM: baHard,
+  easy: baEasy,
+  hard: baHard,
 };
 
 export default music;

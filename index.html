@@ -11,8 +11,9 @@ ToDos
   <head>
     <meta charset="utf-8">
     <title>Go2Jam</title>
+    <link rel="stylesheet" href="./app/stylesheets/reset.css">
     <link rel="stylesheet" href="canvas.css">
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400i" rel="stylesheet">
   </head>
   <body>
     <audio id="cyf">
@@ -24,6 +25,31 @@ ToDos
     <audio id="ba">
       <source src="./songs/audio/ba.mp3" type="audio/mp3">
     </audio>
+    <div class="modal-container" id="modal-container">
+      <div class="modal hidden" id="score-modal">
+
+      </div>
+      <div class="modal" id="intro-modal">
+        <h1>Go2Jam!</h1>
+        <div class="modal-instructions">
+          <h2>Hit the notes as they fall</h2>
+          <p>Time the notes when they are in the bar for higher scores</p>
+          <p>Hit consecutive notes for higher combo streaks!</p>
+        </div>
+        <ul class="song-list">Song List
+          <li class="song-li">
+            <p class="song-title">Can You Feel</p>
+            <button class="easy difficulty-button" type="button" name="cyf" value="easy">Easy</button>
+            <button class="hard difficulty-button" type="button" name="cyf" value="hard">Hard</button>
+          </li>
+          <li class="song-li">
+            <p class="song-title">Bach Alive</p>
+            <button class="easy difficulty-button" type="button" name="ba" value="easy">Easy</button>
+            <button class="hard difficulty-button" type="button" name="ba" value="hard">Hard</button>
+          </li>
+        </ul>
+      </div>
+    </div>
     <div class="go2jam-container">
       <div class="canvas-div">
         <canvas id="0" width="500" height="700"></canvas>

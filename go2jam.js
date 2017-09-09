@@ -10,10 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let game = new Game();
     game.drawBorder();
 
-    let songChoice = "ba";
-    let BMDifficulty = "easyBM";
-    let currentSong = SongList[songChoice];
-    let currentBeatMap = currentSong[BMDifficulty];
+    document.addEventListener("click", (event) => {
+      if (event.target.type === "button") {
+        game.closeIntroModal();
+        let songChoice = event.target.name;
+        let BMDifficulty = event.target.value;
+        let currentSong = SongList[songChoice];
+        let currentBeatMap = currentSong[BMDifficulty];
+        game.playCurrentSong(songChoice, BMDifficulty);
+      }
+    });
 
-    game.playCurrentSong(songChoice, BMDifficulty);
+
 });
