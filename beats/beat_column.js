@@ -49,17 +49,17 @@ class BeatColumn {
   handleScoring(beat, combo) {
     let hitResult = { points: null, success: true };
     if (beat.awesomeScore()) {
-      console.log("AWESOME!");
+      // console.log("AWESOME!");
       combo === 0 ? hitResult.points = 10:
       hitResult.points = 10 * combo;
     }
     else if (beat.greatScore()) {
-      console.log("Great!");
+      // console.log("Great!");
       combo === 0 ? hitResult.points = 10:
       hitResult.points = 5 * combo;
     }
     else {
-      console.log("Miss :(");
+      // console.log("Miss :(");
       hitResult.points = 0;
       hitResult.success = false;
     }

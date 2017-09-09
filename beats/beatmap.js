@@ -22,6 +22,14 @@ class BeatMap {
     this.comboCounter = 0;
     this.addNotes = this.addNotes.bind(this);
     this.keyHit = this.keyHit.bind(this);
+
+    //ONLY TO BEATMAP
+    this.beatLogger = {
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+    };
   }
   addNotes(colNum) {
     if(this.notes[colNum][0] <= this.time) {
@@ -42,7 +50,10 @@ class BeatMap {
     let hitResult = this.cols[colNum].removeBeats(this.comboCounter);
     this.score += hitResult.beatPoints;
     this.comboCounter = hitResult.combo;
-    console.log(this.score);
+    // console.log(this.score);
+    this.beatLogger[colNum].push(Math.round((this.time)/10)*10 - 300);
+    console.log(`${colNum}`,`${Math.round((this.time)/10)*10-300}`); //BEATLOGGER, DO NOT DELETE!!!
+    console.log(this.beatLogger);
   }
 }
 

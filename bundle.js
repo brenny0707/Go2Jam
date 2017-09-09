@@ -223,13 +223,13 @@ var BeatColumn = function () {
     value: function handleScoring(beat, combo) {
       var hitResult = { points: null, success: true };
       if (beat.awesomeScore()) {
-        console.log("AWESOME!");
+        // console.log("AWESOME!");
         combo === 0 ? hitResult.points = 10 : hitResult.points = 10 * combo;
       } else if (beat.greatScore()) {
-        console.log("Great!");
+        // console.log("Great!");
         combo === 0 ? hitResult.points = 10 : hitResult.points = 5 * combo;
       } else {
-        console.log("Miss :(");
+        // console.log("Miss :(");
         hitResult.points = 0;
         hitResult.success = false;
       }
@@ -343,6 +343,14 @@ var BeatMap = function () {
     this.comboCounter = 0;
     this.addNotes = this.addNotes.bind(this);
     this.keyHit = this.keyHit.bind(this);
+
+    //ONLY TO BEATMAP
+    this.beatLogger = {
+      0: [],
+      1: [],
+      2: [],
+      3: []
+    };
   }
 
   _createClass(BeatMap, [{
@@ -368,7 +376,10 @@ var BeatMap = function () {
       var hitResult = this.cols[colNum].removeBeats(this.comboCounter);
       this.score += hitResult.beatPoints;
       this.comboCounter = hitResult.combo;
-      console.log(this.score);
+      // console.log(this.score);
+      this.beatLogger[colNum].push(Math.round(this.time / 10) * 10 - 300);
+      console.log('' + colNum, '' + (Math.round(this.time / 10) * 10 - 300)); //BEATLOGGER, DO NOT DELETE!!!
+      console.log(this.beatLogger);
     }
   }]);
 
@@ -467,10 +478,10 @@ var _beatmap2 = _interopRequireDefault(_beatmap);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var cyfEasy0 = [400, 950, 1950, 2600];
-var cyfEasy1 = [800, 850, 1100, 1850, 2900];
-var cyfEasy2 = [1200, 1400, 1700, 2230, 3150];
-var cyfEasy3 = [1550, 2130, 2330, 2430];
+var cyfEasy0 = [400, 950, 1950, 2600, 4140];
+var cyfEasy1 = [800, 850, 1100, 1850, 2900, 3290, 3860, 4280, 5480, 5620, 5720, 5820, 5960, 6100];
+var cyfEasy2 = [1200, 1400, 1700, 2230, 3150, 3580, 4000, 4420, 4560, 4700, 4840, 4980, 5120, 5260, 5410, 5550, 5650, 5750, 5890, 6020, 6140];
+var cyfEasy3 = [1550, 2130, 2330, 2430, 3430, 3720, 6210];
 
 var cyfHard0 = [400, 950, 1760, 2000, 2220];
 var cyfHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
