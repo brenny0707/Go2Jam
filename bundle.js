@@ -205,7 +205,7 @@ var BeatMap = function () {
         this.comboCounter = 0;
       }
       this.time += 1;
-      // this.displayScore();
+      this.displayScore();
     }
   }, {
     key: 'displayScore',
