@@ -90,9 +90,6 @@ var Beat = function () {
     this.posX = 0;
     this.posY = -this.canvas.height * .08;
     this.drawBeat = this.drawBeat.bind(this);
-    this.handleTimingBar = this.handleTimingBar.bind(this);
-    this.handleHit = this.handleHit.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
     this.awesomeScore = this.awesomeScore.bind(this);
     this.greatScore = this.greatScore.bind(this);
   }
@@ -106,26 +103,6 @@ var Beat = function () {
       this.col === 0 ? this.ctx.fillRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) : this.ctx.fillRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
 
       this.col === 0 ? this.ctx.strokeRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) : this.ctx.strokeRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
-    }
-
-    //these handles irrelevant???
-
-  }, {
-    key: 'handleTimingBar',
-    value: function handleTimingBar() {
-      this.inTimingBar = true;
-    }
-  }, {
-    key: 'handleHit',
-    value: function handleHit() {
-      this.hit = true;
-    }
-  }, {
-    key: 'handleRemove',
-    value: function handleRemove() {
-      if (this.hit === true && this.inTimingBar === true) {
-        //remove block
-      }
     }
   }, {
     key: 'awesomeScore',
@@ -192,6 +169,9 @@ var BeatMap = function () {
     this.comboCounter = 0;
     this.addNotes = this.addNotes.bind(this);
     this.keyHit = this.keyHit.bind(this);
+    this.displayScore = this.displayScore.bind(this);
+    this.scoreCanvas = document.getElementById("outer-canvas");
+    this.ctx = this.scoreCanvas.getContext("2d");
 
     //ONLY TO BEATMAP
     this.beatLogger = {
@@ -213,11 +193,27 @@ var BeatMap = function () {
   }, {
     key: 'drawBeatMap',
     value: function drawBeatMap() {
-      this.cols[0].drawBeats();
-      this.cols[1].drawBeats();
-      this.cols[2].drawBeats();
-      this.cols[3].drawBeats();
+      var missedNotes0 = this.cols[0].drawBeats(this.comboCounter);
+      var missedNotes1 = this.cols[1].drawBeats(this.comboCounter);
+      var missedNotes2 = this.cols[2].drawBeats(this.comboCounter);
+      var missedNotes3 = this.cols[3].drawBeats(this.comboCounter);
+      // this.comboCounter = missedNotes0.combo;
+      // this.comboCounter = missedNotes1.combo;
+      // this.comboCounter = missedNotes2.combo;
+      // this.comboCounter = missedNotes3.combo;
+      if (missedNotes0.combo === 0 || missedNotes1.combo === 0 || missedNotes2.combo === 0 || missedNotes3.combo === 0) {
+        this.comboCounter = 0;
+      }
       this.time += 1;
+      // this.displayScore();
+    }
+  }, {
+    key: 'displayScore',
+    value: function displayScore() {
+      this.ctx.clearRect(0, 0, this.scoreCanvas.width, this.scoreCanvas.height);
+      this.ctx.font = '24px serif';
+      this.ctx.fillText('Score: ' + this.score, this.scoreCanvas.width * .05, this.scoreCanvas.height * .2);
+      this.ctx.fillText('Combo: ' + this.comboCounter, this.scoreCanvas.width * .05, this.scoreCanvas.height * .4);
     }
   }, {
     key: 'keyHit',
@@ -226,21 +222,16 @@ var BeatMap = function () {
       this.score += hitResult.beatPoints;
       this.comboCounter = hitResult.combo;
       // console.log(this.score);
+      // console.log(this.comboCounter);
       this.beatLogger[colNum].push(Math.round(this.time / 10) * 10 - 300);
-      console.log('' + colNum, '' + (Math.round(this.time / 10) * 10 - 300)); //BEATLOGGER, DO NOT DELETE!!!
+      //BEATLOGGER, DO NOT DELETE!!!
       console.log(this.beatLogger);
+      //BEATLOGGER, DO NOT DELETE!!!
     }
   }]);
 
   return BeatMap;
 }();
-
-// let testNotes0 = [0,1000,1500,2000,5000];
-// let testNotes1 = [500,1000,1500,2000,5000];
-// let testNotes2 = [500,1000,1200,1400,1600,1800,2000];
-// let testNotes3 = [0,5000,10000,11000,12000];
-//
-// let testBeatMap = new BeatMap(testNotes0, testNotes1, testNotes2, testNotes3);
 
 exports.default = BeatMap;
 
@@ -277,6 +268,7 @@ var BeatColumn = function () {
     this.drawBeats = this.drawBeats.bind(this);
     this.removeBeats = this.removeBeats.bind(this);
     this.handleScoring = this.handleScoring.bind(this);
+    this.handleMissedBeats = this.handleMissedBeats.bind(this);
   }
 
   _createClass(BeatColumn, [{
@@ -287,15 +279,31 @@ var BeatColumn = function () {
     }
   }, {
     key: "drawBeats",
-    value: function drawBeats() {
+    value: function drawBeats(comboCounter) {
+      var missedBeatScore = { combo: comboCounter };
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       // this.ctx.save();
       if (this.beats.length > 0) {
+        if (this.beats[0].posY > this.canvas.height) {
+          missedBeatScore = this.handleMissedBeats(comboCounter);
+        }
         this.beats.forEach(function (beat) {
           beat.posY += 2;
           beat.drawBeat();
         });
       }
+      return missedBeatScore;
+    }
+  }, {
+    key: "handleMissedBeats",
+    value: function handleMissedBeats(comboCounter) {
+      var scoring = { beatPoints: 0, combo: comboCounter };
+      var hitResult = this.handleScoring(this.beats[0], comboCounter);
+      scoring.beatPoints += hitResult.points;
+      hitResult.success === false ? scoring.combo = 0 : scoring.combo++;
+      this.beats.splice(0, 1);
+      // console.log(scoring.combo);
+      return scoring;
     }
   }, {
     key: "removeBeats",
@@ -309,7 +317,6 @@ var BeatColumn = function () {
           if (beat.posY >= _this.canvas.height * .75 - _this.canvas.height * .08) {
             pastBeats++;
             var hitResult = _this.handleScoring(beat, comboCounter);
-            beat.handleRemove();
             scoring.beatPoints += hitResult.points;
             hitResult.success === false ? scoring.combo = 0 : scoring.combo++;
           }
@@ -329,7 +336,7 @@ var BeatColumn = function () {
         // console.log("Great!");
         combo === 0 ? hitResult.points = 10 : hitResult.points = 5 * combo;
       } else {
-        // console.log("Miss :(");
+        // console.log("Miss");
         hitResult.points = 0;
         hitResult.success = false;
       }
@@ -477,13 +484,13 @@ var _beatmap2 = _interopRequireDefault(_beatmap);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var cyfEasy0 = [400, 950, 1950, 2600, 4140, 4700, 6510, 7050, 8010, 8740, 9160, 9290, 10210, 10460, 10810, 11220, 11790, 12320, 12750, 13020, 13320, 13990, 14550, 15230, 16220, 16780, 17450, 18170, 19160];
+var cyfEasy0 = [400, 950, 1950, 2600, 4140, 4700, 6510, 7050, 8010, 8740, 9160, 9290, 10210, 10460, 10810, 11220, 11790, 12320, 12750, 13020, 13320, 13990, 14550, 15230, 16220, 16780, 17450, 18170, 19160, 20110, 20370, 20920, 21480, 22090, 22220, 22600, 23150, 23700, 24310, 24430, 24690, 25060];
 
-var cyfEasy1 = [800, 850, 1100, 1850, 2900, 3290, 3860, 4280, 4980, 5550, 5820, 6100, 6780, 7050, 7340, 7870, 8420, 8870, 9290, 9570, 10080, 10580, 11510, 12060, 12610, 12890, 13160, 13720, 14290, 15090, 15810, 15970, 16500, 17320, 18090, 18300, 19060];
+var cyfEasy1 = [800, 850, 1100, 1850, 2900, 3290, 3860, 4280, 4980, 5550, 5820, 6100, 6780, 7050, 7340, 7870, 8420, 8870, 9290, 9570, 10080, 10580, 11510, 12060, 12610, 12890, 13160, 13720, 14290, 15090, 15810, 15970, 16500, 17320, 18090, 18300, 19060, 19850, 20640, 21190, 21760, 22330, 22870, 23430, 23970, 24560, 24770];
 
-var cyfEasy2 = [1200, 1400, 1700, 2230, 3150, 3580, 4000, 4420, 4560, 5120, 5260, 5410, 5650, 5960, 6510, 6910, 7180, 7750, 8300, 9020, 9440, 9690, 9970, 10700, 11090, 11650, 12190, 12610, 12890, 13160, 13590, 13870, 14160, 14670, 14970, 15520, 16090, 16380, 16930, 17190, 17750, 18000, 18410, 18620, 18920, 19440];
+var cyfEasy2 = [1200, 1400, 1700, 2230, 3150, 3580, 4000, 4420, 4560, 5120, 5260, 5410, 5650, 5960, 6510, 6910, 7180, 7750, 8300, 9020, 9440, 9690, 9970, 10700, 11090, 11650, 12190, 12610, 12890, 13160, 13590, 13870, 14160, 14670, 14970, 15520, 16090, 16380, 16930, 17190, 17750, 18000, 18410, 18620, 18920, 19440, 19850, 20510, 21060, 21620, 22330, 22740, 23290, 23840, 24560, 24830];
 
-var cyfEasy3 = [1550, 2130, 2330, 2430, 3430, 3720, 4840, 6210, 6640, 7480, 8530, 8630, 8740, 11370, 11920, 12470, 12750, 13020, 13460, 14420, 15660, 16640, 17880, 18780, 19340, 19550, 19650];
+var cyfEasy3 = [1550, 2130, 2330, 2430, 3430, 3720, 4840, 6210, 6640, 7480, 8530, 8630, 8740, 11370, 11920, 12470, 12750, 13020, 13460, 14420, 15660, 16640, 17880, 18780, 19340, 19550, 19650, 20110, 20770, 21330, 21890, 22090, 22220, 23000, 23560, 24110, 24300, 24430, 24950, 25060];
 
 var cyfHard0 = [400, 950, 1760, 2000, 2220];
 var cyfHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];

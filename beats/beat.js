@@ -8,9 +8,6 @@ class Beat {
     this.posX = 0;
     this.posY = - this.canvas.height * .08;
     this.drawBeat = this.drawBeat.bind(this);
-    this.handleTimingBar = this.handleTimingBar.bind(this);
-    this.handleHit = this.handleHit.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
     this.awesomeScore = this.awesomeScore.bind(this);
     this.greatScore = this.greatScore.bind(this);
   }
@@ -26,21 +23,6 @@ class Beat {
 
     this.col === 0 ? this.ctx.strokeRect(this.canvas.width * .25 * this.col, this.posY, this.canvas.width * .25, this.canvas.height * .08) :
     this.ctx.strokeRect(this.canvas.width * .25 * this.col + 5, this.posY, this.canvas.width * .25 - 5, this.canvas.height * .08);
-  }
-
-  //these handles irrelevant???
-  handleTimingBar() {
-    this.inTimingBar = true;
-  }
-
-  handleHit() {
-    this.hit = true;
-  }
-
-  handleRemove() {
-    if (this.hit === true && this.inTimingBar === true) {
-      //remove block
-    }
   }
 
   awesomeScore() {

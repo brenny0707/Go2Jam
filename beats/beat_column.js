@@ -9,6 +9,7 @@ class BeatColumn {
     this.drawBeats = this.drawBeats.bind(this);
     this.removeBeats = this.removeBeats.bind(this);
     this.handleScoring = this.handleScoring.bind(this);
+    this.handleMissedBeats = this.handleMissedBeats.bind(this);
   }
 
   addBeat() {
@@ -16,15 +17,29 @@ class BeatColumn {
     this.beats.push(beat);
   }
 
-  drawBeats() {
+  drawBeats(comboCounter) {
+    let missedBeatScore = {combo: comboCounter};
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     // this.ctx.save();
     if (this.beats.length > 0) {
+      if (this.beats[0].posY > this.canvas.height) {
+        missedBeatScore = this.handleMissedBeats(comboCounter);
+      }
       this.beats.forEach( (beat) => {
         beat.posY += 2;
         beat.drawBeat();
       });
     }
+    return missedBeatScore;
+  }
+  handleMissedBeats(comboCounter) {
+      let scoring = {beatPoints: 0, combo: comboCounter};
+      let hitResult = this.handleScoring(this.beats[0], comboCounter);
+      scoring.beatPoints += hitResult.points;
+      hitResult.success === false ? scoring.combo = 0 : scoring.combo ++;
+      this.beats.splice(0, 1);
+      // console.log(scoring.combo);
+      return scoring;
   }
 
   removeBeats(comboCounter) {
@@ -35,7 +50,6 @@ class BeatColumn {
         if (beat.posY >= this.canvas.height * .75 - this.canvas.height * .08 ) {
           pastBeats ++;
           let hitResult = this.handleScoring(beat, comboCounter);
-          beat.handleRemove();
           scoring.beatPoints += hitResult.points;
           hitResult.success === false ? scoring.combo = 0 : scoring.combo ++;
         }
@@ -59,7 +73,7 @@ class BeatColumn {
       hitResult.points = 5 * combo;
     }
     else {
-      // console.log("Miss :(");
+      // console.log("Miss");
       hitResult.points = 0;
       hitResult.success = false;
     }

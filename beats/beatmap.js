@@ -22,6 +22,9 @@ class BeatMap {
     this.comboCounter = 0;
     this.addNotes = this.addNotes.bind(this);
     this.keyHit = this.keyHit.bind(this);
+    this.displayScore = this.displayScore.bind(this);
+    this.scoreCanvas = document.getElementById("outer-canvas");
+    this.ctx = this.scoreCanvas.getContext("2d");
 
     //ONLY TO BEATMAP
     this.beatLogger = {
@@ -39,29 +42,38 @@ class BeatMap {
   }
 
   drawBeatMap() {
-      this.cols[0].drawBeats();
-      this.cols[1].drawBeats();
-      this.cols[2].drawBeats();
-      this.cols[3].drawBeats();
+      let missedNotes0 = this.cols[0].drawBeats(this.comboCounter);
+      let missedNotes1 =this.cols[1].drawBeats(this.comboCounter);
+      let missedNotes2 =this.cols[2].drawBeats(this.comboCounter);
+      let missedNotes3 =this.cols[3].drawBeats(this.comboCounter);
+      // this.comboCounter = missedNotes0.combo;
+      // this.comboCounter = missedNotes1.combo;
+      // this.comboCounter = missedNotes2.combo;
+      // this.comboCounter = missedNotes3.combo;
+      if (missedNotes0.combo === 0 || missedNotes1.combo === 0 || missedNotes2.combo === 0 || missedNotes3.combo === 0) {
+        this.comboCounter = 0;
+      }
       this.time += 1;
+      // this.displayScore();
   }
 
+  displayScore() {
+    this.ctx.clearRect(0,0,this.scoreCanvas.width, this.scoreCanvas.height);
+    this.ctx.font = '24px serif';
+    this.ctx.fillText(`Score: ${this.score}`, this.scoreCanvas.width * .05, this.scoreCanvas.height * .2);
+    this.ctx.fillText(`Combo: ${this.comboCounter}`, this.scoreCanvas.width * .05, this.scoreCanvas.height * .4);
+  }
   keyHit(colNum) {
     let hitResult = this.cols[colNum].removeBeats(this.comboCounter);
     this.score += hitResult.beatPoints;
     this.comboCounter = hitResult.combo;
     // console.log(this.score);
+    // console.log(this.comboCounter);
     this.beatLogger[colNum].push(Math.round((this.time)/10)*10 - 300);
-    console.log(`${colNum}`,`${Math.round((this.time)/10)*10-300}`); //BEATLOGGER, DO NOT DELETE!!!
+    //BEATLOGGER, DO NOT DELETE!!!
     console.log(this.beatLogger);
+    //BEATLOGGER, DO NOT DELETE!!!
   }
 }
-
-// let testNotes0 = [0,1000,1500,2000,5000];
-// let testNotes1 = [500,1000,1500,2000,5000];
-// let testNotes2 = [500,1000,1200,1400,1600,1800,2000];
-// let testNotes3 = [0,5000,10000,11000,12000];
-//
-// let testBeatMap = new BeatMap(testNotes0, testNotes1, testNotes2, testNotes3);
 
 export default BeatMap;
