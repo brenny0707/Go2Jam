@@ -66,6 +66,8 @@ class Game {
   playCurrentSong(songTag, difficulty) {
     let selectedSong = SongList[songTag];
     let selectedBeatMap = selectedSong[difficulty];
+    selectedBeatMap.startTime = new Date().getTime();
+    selectedBeatMap.currentTime = new Date().getTime();
     setInterval( () => {
       selectedBeatMap.addNotes(0);
       selectedBeatMap.addNotes(1);

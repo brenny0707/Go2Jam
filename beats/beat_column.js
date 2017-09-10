@@ -17,7 +17,7 @@ class BeatColumn {
     this.beats.push(beat);
   }
 
-  drawBeats(comboCounter) {
+  drawBeats(comboCounter, speed) {
     let missedBeatScore = {combo: comboCounter};
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     // this.ctx.save();
@@ -26,7 +26,7 @@ class BeatColumn {
         missedBeatScore = this.handleMissedBeats(comboCounter);
       }
       this.beats.forEach( (beat) => {
-        beat.posY += 2;
+        beat.posY += speed;
         beat.drawBeat();
       });
     }

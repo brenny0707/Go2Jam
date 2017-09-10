@@ -2,8 +2,10 @@ import Beat from './beat.js';
 import BeatColumn from './beat_column.js';
 
 class BeatMap {
-  constructor(notes0, notes1, notes2, notes3) {
-    this.time = 0;
+  constructor(notes0, notes1, notes2, notes3, speed) {
+    // this.time = 0;
+    this.startTime = 0;
+    this.currentTime = 0;
     //notes are arrays with time integers (in ms) to see when it needs to be added to respective BeatColumn
     this.notes = {
       0: notes0,
@@ -20,6 +22,7 @@ class BeatMap {
     };
     this.score = 0;
     this.comboCounter = 0;
+    this.speed = speed;
     this.addNotes = this.addNotes.bind(this);
     this.keyHit = this.keyHit.bind(this);
     this.displayScore = this.displayScore.bind(this);
@@ -35,17 +38,17 @@ class BeatMap {
     };
   }
   addNotes(colNum) {
-    if(this.notes[colNum][0] <= this.time) {
+    if(this.notes[colNum][0] <= this.currentTime - this.startTime) {
       this.cols[colNum].addBeat(colNum);
       this.notes[colNum].shift();
     }
   }
 
   drawBeatMap() {
-      let missedNotes0 = this.cols[0].drawBeats(this.comboCounter);
-      let missedNotes1 =this.cols[1].drawBeats(this.comboCounter);
-      let missedNotes2 =this.cols[2].drawBeats(this.comboCounter);
-      let missedNotes3 =this.cols[3].drawBeats(this.comboCounter);
+      let missedNotes0 = this.cols[0].drawBeats(this.comboCounter, this.speed);
+      let missedNotes1 =this.cols[1].drawBeats(this.comboCounter, this.speed);
+      let missedNotes2 =this.cols[2].drawBeats(this.comboCounter, this.speed);
+      let missedNotes3 =this.cols[3].drawBeats(this.comboCounter, this.speed);
       // this.comboCounter = missedNotes0.combo;
       // this.comboCounter = missedNotes1.combo;
       // this.comboCounter = missedNotes2.combo;
@@ -53,7 +56,7 @@ class BeatMap {
       if (missedNotes0.combo === 0 || missedNotes1.combo === 0 || missedNotes2.combo === 0 || missedNotes3.combo === 0) {
         this.comboCounter = 0;
       }
-      this.time += 1;
+      this.currentTime = new Date().getTime();
       this.displayScore();
   }
 
@@ -69,7 +72,7 @@ class BeatMap {
     this.comboCounter = hitResult.combo;
     // console.log(this.score);
     // console.log(this.comboCounter);
-    this.beatLogger[colNum].push(Math.round((this.time)/10)*10 - 300);
+    this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * this.speed));
     //BEATLOGGER, DO NOT DELETE!!!
     console.log(this.beatLogger);
     //BEATLOGGER, DO NOT DELETE!!!

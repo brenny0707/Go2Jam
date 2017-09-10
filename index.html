@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<!--
-ToDos
-1. Create canvas - done
-2. Add music - done
-3. Generate scrolling notes (big part!!!) - done?
-4. Incorporate timing/scoring
-
- -->
 <html>
   <head>
     <meta charset="utf-8">
@@ -18,12 +10,6 @@ ToDos
   <body>
     <audio id="cyf">
       <source src="./songs/audio/cyf.mp3" type="audio/mp3">
-    </audio>
-    <audio id="fd">
-      <source src="./songs/audio/fd.mp3" type="audio/mp3">
-    </audio>
-    <audio id="ba">
-      <source src="./songs/audio/ba.mp3" type="audio/mp3">
     </audio>
     <div class="modal-container" id="modal-container">
       <div class="modal hidden" id="score-modal">
@@ -41,11 +27,6 @@ ToDos
             <p class="song-title">Can You Feel</p>
             <button class="easy difficulty-button" type="button" name="cyf" value="easy">Easy</button>
             <button class="hard difficulty-button" type="button" name="cyf" value="hard">Hard</button>
-          </li>
-          <li class="song-li">
-            <p class="song-title">Bach Alive</p>
-            <button class="easy difficulty-button" type="button" name="ba" value="easy">Easy</button>
-            <button class="hard difficulty-button" type="button" name="ba" value="hard">Hard</button>
           </li>
         </ul>
       </div>

@@ -147,10 +147,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var BeatMap = function () {
-  function BeatMap(notes0, notes1, notes2, notes3) {
+  function BeatMap(notes0, notes1, notes2, notes3, speed) {
     _classCallCheck(this, BeatMap);
 
-    this.time = 0;
+    // this.time = 0;
+    this.startTime = 0;
+    this.currentTime = 0;
     //notes are arrays with time integers (in ms) to see when it needs to be added to respective BeatColumn
     this.notes = {
       0: notes0,
@@ -167,6 +169,7 @@ var BeatMap = function () {
     };
     this.score = 0;
     this.comboCounter = 0;
+    this.speed = speed;
     this.addNotes = this.addNotes.bind(this);
     this.keyHit = this.keyHit.bind(this);
     this.displayScore = this.displayScore.bind(this);
@@ -185,7 +188,7 @@ var BeatMap = function () {
   _createClass(BeatMap, [{
     key: 'addNotes',
     value: function addNotes(colNum) {
-      if (this.notes[colNum][0] <= this.time) {
+      if (this.notes[colNum][0] <= this.currentTime - this.startTime) {
         this.cols[colNum].addBeat(colNum);
         this.notes[colNum].shift();
       }
@@ -193,10 +196,10 @@ var BeatMap = function () {
   }, {
     key: 'drawBeatMap',
     value: function drawBeatMap() {
-      var missedNotes0 = this.cols[0].drawBeats(this.comboCounter);
-      var missedNotes1 = this.cols[1].drawBeats(this.comboCounter);
-      var missedNotes2 = this.cols[2].drawBeats(this.comboCounter);
-      var missedNotes3 = this.cols[3].drawBeats(this.comboCounter);
+      var missedNotes0 = this.cols[0].drawBeats(this.comboCounter, this.speed);
+      var missedNotes1 = this.cols[1].drawBeats(this.comboCounter, this.speed);
+      var missedNotes2 = this.cols[2].drawBeats(this.comboCounter, this.speed);
+      var missedNotes3 = this.cols[3].drawBeats(this.comboCounter, this.speed);
       // this.comboCounter = missedNotes0.combo;
       // this.comboCounter = missedNotes1.combo;
       // this.comboCounter = missedNotes2.combo;
@@ -204,7 +207,7 @@ var BeatMap = function () {
       if (missedNotes0.combo === 0 || missedNotes1.combo === 0 || missedNotes2.combo === 0 || missedNotes3.combo === 0) {
         this.comboCounter = 0;
       }
-      this.time += 1;
+      this.currentTime = new Date().getTime();
       this.displayScore();
     }
   }, {
@@ -223,7 +226,7 @@ var BeatMap = function () {
       this.comboCounter = hitResult.combo;
       // console.log(this.score);
       // console.log(this.comboCounter);
-      this.beatLogger[colNum].push(Math.round(this.time / 10) * 10 - 300);
+      this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime) / 10) * 10 - 380 * this.speed);
       //BEATLOGGER, DO NOT DELETE!!!
       console.log(this.beatLogger);
       //BEATLOGGER, DO NOT DELETE!!!
@@ -279,7 +282,7 @@ var BeatColumn = function () {
     }
   }, {
     key: "drawBeats",
-    value: function drawBeats(comboCounter) {
+    value: function drawBeats(comboCounter, speed) {
       var missedBeatScore = { combo: comboCounter };
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       // this.ctx.save();
@@ -288,7 +291,7 @@ var BeatColumn = function () {
           missedBeatScore = this.handleMissedBeats(comboCounter);
         }
         this.beats.forEach(function (beat) {
-          beat.posY += 2;
+          beat.posY += speed;
           beat.drawBeat();
         });
       }
@@ -402,15 +405,10 @@ var _cyf = __webpack_require__(6);
 
 var _cyf2 = _interopRequireDefault(_cyf);
 
-var _ba = __webpack_require__(7);
-
-var _ba2 = _interopRequireDefault(_ba);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SongList = {
-  cyf: _cyf2.default,
-  ba: _ba2.default
+  cyf: _cyf2.default
 };
 
 exports.default = SongList;
@@ -484,21 +482,46 @@ var _beatmap2 = _interopRequireDefault(_beatmap);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var cyfEasy0 = [400, 950, 1950, 2600, 4140, 4700, 6510, 7050, 8010, 8740, 9160, 9290, 10210, 10460, 10810, 11220, 11790, 12320, 12750, 13020, 13320, 13990, 14550, 15230, 16220, 16780, 17450, 18170, 19160, 20110, 20370, 20920, 21480, 22090, 22220, 22600, 23150, 23700, 24310, 24430, 24690, 25060];
+//compensate = 920-940?
+// const cyfEasyo0 =
+// [400, 950, 1950, 2600, 4140, 4700, 6510, 7050, 8010, 8740, 9160, 9290, 10210, 10460, 10810, 11220, 11790, 12320, 12750, 13020, 13320, 13990, 14550, 15230, 16220, 16780, 17450, 18170, 19160,
+//
+//   20110, 20370, 20920, 21480, 22090, 22220, 22600, 23150, 23700, 24310, 24430, 24690, 25060];
+// [2570 - 920];
+var cyfEasy0 = [1620, 7830, 13790, 16030, 18230, 19310, 19550, 20130];
 
-var cyfEasy1 = [800, 850, 1100, 1850, 2900, 3290, 3860, 4280, 4980, 5550, 5820, 6100, 6780, 7050, 7340, 7870, 8420, 8870, 9290, 9570, 10080, 10580, 11510, 12060, 12610, 12890, 13160, 13720, 14290, 15090, 15810, 15970, 16500, 17320, 18090, 18300, 19060, 19850, 20640, 21190, 21760, 22330, 22870, 23430, 23970, 24560, 24770];
+var cyfEasy1 =
+// [800, 850, 1100, 1850, 2900, 3290, 3860, 4280, 4980, 5550, 5820, 6100, 6780, 7050, 7340, 7870, 8420, 8870, 9290, 9570, 10080, 10580, 11510, 12060, 12610, 12890, 13160, 13720, 14290, 15090, 15810, 15970, 16500, 17320, 18090, 18300, 19060,
+//
+//   19850, 20640, 21190, 21760, 22330, 22870, 23430, 23970, 24560, 24770];
+[3880, 7410, 11660, 12720, 14930, 17120, 19860, 20480, 20860];
+var cyfEasy2 =
+// [1200, 1400, 1700, 2230, 3150, 3580, 4000, 4420, 4560, 5120, 5260, 5410, 5650, 5960, 6510, 6910, 7180, 7750, 8300, 9020, 9440, 9690, 9970, 10700, 11090, 11650, 12190, 12610, 12890, 13160, 13590, 13870, 14160, 14670, 14970, 15520, 16090, 16380, 16930, 17190, 17750, 18000, 18410, 18620, 18920, 19440,
 
-var cyfEasy2 = [1200, 1400, 1700, 2230, 3150, 3580, 4000, 4420, 4560, 5120, 5260, 5410, 5650, 5960, 6510, 6910, 7180, 7750, 8300, 9020, 9440, 9690, 9970, 10700, 11090, 11650, 12190, 12610, 12890, 13160, 13590, 13870, 14160, 14670, 14970, 15520, 16090, 16380, 16930, 17190, 17750, 18000, 18410, 18620, 18920, 19440, 19850, 20510, 21060, 21620, 22330, 22740, 23290, 23840, 24560, 24830];
+// 19850, 20510, 21060, 21620, 22330, 22740, 23290, 23840, 24560, 24830];
+[3270, 3550, 4370, 5720, 6880, 8950, 10390, 14320, 16580, 18780, 19870, 20490, 20870];
+var cyfEasy3 =
+// [1550, 2130, 2330, 2430, 3430, 3720, 4840, 6210, 6640, 7480, 8530, 8630, 8740, 11370, 11920, 12470, 12750, 13020, 13460, 14420, 15660, 16640, 17880, 18780, 19340, 19550, 19650,
+//
+//   20110, 20770, 21330, 21890, 22090, 22220, 23000, 23560, 24110, 24300, 24430, 24950, 25060];
+[4780, 6290, 8530, 9350, 9770, 13250, 15480, 17690, 19330, 19560, 20150];
+//240
+var cyfHard0 = [1750, 4170, 7470, 8410, 8880, 9660, 10090, 11890, 13550, 14540, 15050, 15810, 16770, 17740, 18030, 18970, 19700, 19950, 20220, 20780, 21170, 26350, 26550, 28510, 29630, 30560, 31970, 35220, 37400, 38260, 39180, 41270, 42080, 43670];
 
-var cyfEasy3 = [1550, 2130, 2330, 2430, 3430, 3720, 4840, 6210, 6640, 7480, 8530, 8630, 8740, 11370, 11920, 12470, 12750, 13020, 13460, 14420, 15660, 16640, 17880, 18780, 19340, 19550, 19650, 20110, 20770, 21330, 21890, 22090, 22220, 23000, 23560, 24110, 24300, 24430, 24950, 25060];
+// 22740, 23560, 24660, 25080, 26340, 26550, 28510, 29630, 30560, 31970, 35220, 35990, 37440, 38780, 39880, 40910, 42970, 44890, 45810, 47160, 49190, 51920, 52170, 52440, 52690, 52940, 54670, 55890, 56440, 57420, 58430, 58770, 60360, 61450, 62990, 63160, 63710, 64390, 64760, 65740, 66310, 66900, 67330, 67680, 69950, 72190, 73020, 75870, 76840, 77810, 80140, 81130, 81920, 82850, 83820, 85390, 86220, 87160, 88120, 90780, 91780, 92700, 93850, 95110, 96050, 97040, 98680, 100240, 100600];
+var cyfHard1 = [3480, 3760, 4170, 4690, 6860, 7370, 7950, 8260, 9260, 10570, 13300, 14100, 15510, 16340, 17450, 18590, 19700, 19950, 20500, 20780, 21170, 22190, 22760, 23260, 23830, 24360, 24800, 26350, 26550, 27450, 27750, 28510, 28990, 30070, 31470, 32580, 33740, 35590, 36310, 36560, 37850, 38800, 40870, 41460, 42510, 43550];
 
-var cyfHard0 = [400, 950, 1760, 2000, 2220];
-var cyfHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
-var cyfHard2 = [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
-var cyfHard3 = [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
+// 22190, 23160, 24120, 26350, 26560, 27450, 27750, 28510, 28990, 30070, 31470, 32580, 33740, 35590, 37090, 38280, 39220, 40390, 42170, 43690, 44720, 46600, 46900, 47990, 49120, 50790, 51040, 51370, 51630, 54660, 55490, 56930, 57990, 59400, 60860, 63340, 64380, 64760, 65320, 66310, 66890, 68290, 69370, 71840, 72000, 73580, 75790, 76490, 77150, 79720, 80830, 81300, 82440, 83380, 84380, 85910, 86650, 87570, 89790, 90290, 91380, 92310, 93300, 94280, 95490, 96520, 99680, 100600];
+var cyfHard2 = [3480, 3760, 4690, 5130, 6030, 6290, 6740, 7200, 7840, 9260, 10480, 10760, 12760, 13550, 14530, 15210, 16340, 17150, 17300, 18590, 19380, 19520, 19700, 19950, 20500, 20780, 21170, 21950, 22470, 22870, 23160, 23550, 24110, 24680, 25100, 26850, 27450, 27750, 28230, 28910, 29970, 31060, 31340, 32270, 34010, 34400, 34840, 35470, 36310, 36560, 37730, 38540, 39310, 39920, 40170, 40580, 43020];
 
-var cyfEasy = new _beatmap2.default(cyfEasy0, cyfEasy1, cyfEasy2, cyfEasy3);
-var cyfHard = new _beatmap2.default(cyfHard0, cyfHard1, cyfHard2, cyfHard3);
+// 21980, 22470, 22860, 23820, 24740, 26850, 27460, 27760, 28230, 28910, 29970, 31060, 31340, 32270, 34010, 34400, 34840, 35470, 36350, 36620, 37100, 38010, 38990, 40230, 41220, 41510, 42580, 43580, 44420, 46100, 47020, 48240, 48770, 49940, 50500, 50800, 51050, 51360, 51620, 53540, 54100, 55220, 56150, 57110, 58170, 59110, 59890, 60210, 60580, 62090, 62250, 62410, 63340, 64090, 64630, 65040, 65950, 66600, 67050, 67580, 68840, 69060, 70440, 71040, 71180, 71350, 72570, 73010, 74000, 74820, 75060, 75660, 76230, 76620, 77260, 77820, 78200, 78550, 79000, 79540, 80530, 81210, 82190, 83150, 84130, 85680, 86370, 87270, 88300, 88770, 88920, 89170, 89320, 91090, 92070, 92990, 93980, 95230, 96210, 97180, 97640, 97800, 98040, 98190, 99060, 99660,100600];
+var cyfHard3 = [1750, 5130, 6160, 6640, 7740, 8140, 8870, 9670, 10100, 12370, 13300, 14110, 14930, 15820, 16770, 18040, 18970, 19700, 19950, 20210, 20780, 21170, 25100, 26850, 28230, 29340, 30180, 31720, 33240, 33370, 33520, 34400, 34840, 35700, 37140, 38040, 38950, 40300, 43350];
+
+// 23260, 24370, 25070, 26840, 28230, 29340, 30180, 31720, 33240, 33370, 33520, 34400, 34840, 35700, 37430, 38580, 39530, 40640, 41210, 41500, 43280, 44580, 45520, 46720, 47610, 47750, 48920, 50220, 51900, 52170, 52440, 52670, 52940, 54100, 55740, 56540, 57700, 58670, 59890, 60210, 61170, 62570, 63000, 63150, 64090, 64630, 65390, 66610, 68020, 68830, 69040, 71470, 73570, 74000, 74970, 76090, 76950, 77810, 78210, 79420, 81040, 81620, 82710, 83720, 84700, 84970, 85110, 86050, 86900, 87890, 88770, 88890, 89170, 89310, 91640, 92620, 93610, 94520, 94810, 94930, 95780, 96730, 97640, 97780, 98040, 98180, 99370, 100240, 100600];
+
+
+var cyfEasy = new _beatmap2.default(cyfEasy0, cyfEasy1, cyfEasy2, cyfEasy3, 2);
+var cyfHard = new _beatmap2.default(cyfHard0, cyfHard1, cyfHard2, cyfHard3, 2.5);
 
 var music = {
   title: "Can You Feel",
@@ -511,46 +534,7 @@ var music = {
 exports.default = music;
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _beatmap = __webpack_require__(1);
-
-var _beatmap2 = _interopRequireDefault(_beatmap);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var baEasy0 = [400, 950];
-var baEasy1 = [800, 850, 1100];
-var baEasy2 = [1200];
-var baEasy3 = [];
-
-var baHard0 = [400, 950, 1760, 2000, 2220];
-var baHard1 = [800, 850, 950, 1100, 1625, 1745, 1910, 1970, 2120, 2350, 2430];
-var baHard2 = [800, 850, 1100, 1200, 1400, 1460, 1600, 1720, 1880, 2220];
-var baHard3 = [400, 1200, 1430, 1575, 1850, 1940, 2120, 2350, 2430];
-
-var baEasy = new _beatmap2.default(baEasy0, baEasy1, baEasy2, baEasy3);
-var baHard = new _beatmap2.default(baHard0, baHard1, baHard2, baHard3);
-
-var music = {
-  title: "Bach Alive",
-  songTag: "ba",
-  songOffset: 1000,
-  easy: baEasy,
-  hard: baHard
-};
-
-exports.default = music;
-
-/***/ }),
+/* 7 */,
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -658,6 +642,8 @@ var Game = function () {
     value: function playCurrentSong(songTag, difficulty) {
       var selectedSong = _song_list2.default[songTag];
       var selectedBeatMap = selectedSong[difficulty];
+      selectedBeatMap.startTime = new Date().getTime();
+      selectedBeatMap.currentTime = new Date().getTime();
       setInterval(function () {
         selectedBeatMap.addNotes(0);
         selectedBeatMap.addNotes(1);
