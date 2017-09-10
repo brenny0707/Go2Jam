@@ -70,9 +70,9 @@ class BeatMap {
     let hitResult = this.cols[colNum].removeBeats(this.comboCounter);
     this.score += hitResult.beatPoints;
     this.comboCounter = hitResult.combo;
-    // console.log(this.score);
-    // console.log(this.comboCounter);
-    this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * this.speed));
+    // this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * this.speed));
+
+    this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * 3) - 80);
     //BEATLOGGER, DO NOT DELETE!!!
     console.log(this.beatLogger);
     //BEATLOGGER, DO NOT DELETE!!!

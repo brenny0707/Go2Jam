@@ -45,20 +45,30 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  top: 120px;
-  left: 632px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% , -50%);
   background: rgba(82,172,255,.7);
-  height: 500px;
-  width: 500px;
+  height: 75%;
+  max-width: 650px;
+  width: 50%;
   border-radius: 50px;
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
+
 }
 
 .modal > * {
   margin-top: 30px;
-  width: 450px;
+  width: 70%;
   box-sizing: border-box;
+  padding: 20px;
+  background-color: #D7D7D7;
+  border-radius: 10px;
+}
+
+.modal * {
+  font-family: 'Baloo Tammudu', cursive;
 }
 
 .modal h1 {
@@ -70,18 +80,17 @@ canvas {
   background: -webkit-linear-gradient(#FDFDF7, #C6C6C4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  tex
 }
 
 .modal h2 {
   font-size: 20px;
   letter-spacing: 3px;
   font-weight: 500;
+  text-decoration: underline;
 }
 
 .modal-instructions {
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -90,13 +99,11 @@ canvas {
 .modal-instructions > * {
   margin: 0 auto;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .modal > ul {
   text-align: center;
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,15 +118,52 @@ canvas {
   border-radius: 10px;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
-.song-li:first-of-type {
+.song-li > .difficulty-button {
+    border-radius: 5px;
+    text-align: center;
+    min-width: 15%;
+}
 
+.song-li > .easy {
+  background-color: green;
+}
+
+.song-li > .hard {
+  background-color: orange;
 }
 
 .song-title {
   width: 50%;
 }
+
+.author {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.author > * {
+  margin: 0 auto;
+}
+.portfolio-icons{
+  display: flex;
+  flex-direction: row;
+}
+
+.portfolio-icons > li {
+  margin-top: 10px;
+  margin-right: 20px;
+}
+
+a {
+  color: black;
+  font-size: 32px;
+  text-decoration: none;
+}
+
 .hidden {
   display: none;
 }
