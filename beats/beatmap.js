@@ -74,7 +74,7 @@ class BeatMap {
 
     this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * 3) - 80);
     //BEATLOGGER, DO NOT DELETE!!!
-    console.log(this.beatLogger);
+    // console.log(this.beatLogger);
     //BEATLOGGER, DO NOT DELETE!!!
   }
 }
