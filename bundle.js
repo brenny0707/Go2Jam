@@ -138,123 +138,6 @@ var _beat = __webpack_require__(0);
 
 var _beat2 = _interopRequireDefault(_beat);
 
-var _beat_column = __webpack_require__(2);
-
-var _beat_column2 = _interopRequireDefault(_beat_column);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var BeatMap = function () {
-  function BeatMap(notes0, notes1, notes2, notes3, speed) {
-    _classCallCheck(this, BeatMap);
-
-    // this.time = 0;
-    this.startTime = 0;
-    this.currentTime = 0;
-    //notes are arrays with time integers (in ms) to see when it needs to be added to respective BeatColumn
-    this.notes = {
-      0: notes0,
-      1: notes1,
-      2: notes2,
-      3: notes3
-    };
-
-    this.cols = {
-      0: new _beat_column2.default(0),
-      1: new _beat_column2.default(1),
-      2: new _beat_column2.default(2),
-      3: new _beat_column2.default(3)
-    };
-    this.score = 0;
-    this.comboCounter = 0;
-    this.speed = speed;
-    this.addNotes = this.addNotes.bind(this);
-    this.keyHit = this.keyHit.bind(this);
-    this.displayScore = this.displayScore.bind(this);
-    this.scoreCanvas = document.getElementById("outer-canvas");
-    this.ctx = this.scoreCanvas.getContext("2d");
-
-    //ONLY TO BEATMAP
-    this.beatLogger = {
-      0: [],
-      1: [],
-      2: [],
-      3: []
-    };
-  }
-
-  _createClass(BeatMap, [{
-    key: 'addNotes',
-    value: function addNotes(colNum) {
-      if (this.notes[colNum][0] <= this.currentTime - this.startTime) {
-        this.cols[colNum].addBeat(colNum);
-        this.notes[colNum].shift();
-      }
-    }
-  }, {
-    key: 'drawBeatMap',
-    value: function drawBeatMap() {
-      var missedNotes0 = this.cols[0].drawBeats(this.comboCounter, this.speed);
-      var missedNotes1 = this.cols[1].drawBeats(this.comboCounter, this.speed);
-      var missedNotes2 = this.cols[2].drawBeats(this.comboCounter, this.speed);
-      var missedNotes3 = this.cols[3].drawBeats(this.comboCounter, this.speed);
-      // this.comboCounter = missedNotes0.combo;
-      // this.comboCounter = missedNotes1.combo;
-      // this.comboCounter = missedNotes2.combo;
-      // this.comboCounter = missedNotes3.combo;
-      if (missedNotes0.combo === 0 || missedNotes1.combo === 0 || missedNotes2.combo === 0 || missedNotes3.combo === 0) {
-        this.comboCounter = 0;
-      }
-      this.currentTime = new Date().getTime();
-      this.displayScore();
-    }
-  }, {
-    key: 'displayScore',
-    value: function displayScore() {
-      this.ctx.clearRect(0, 0, this.scoreCanvas.width, this.scoreCanvas.height);
-      this.ctx.font = '24px serif';
-      this.ctx.fillText('Score: ' + this.score, this.scoreCanvas.width * .05, this.scoreCanvas.height * .2);
-      this.ctx.fillText('Combo: ' + this.comboCounter, this.scoreCanvas.width * .05, this.scoreCanvas.height * .4);
-    }
-  }, {
-    key: 'keyHit',
-    value: function keyHit(colNum) {
-      var hitResult = this.cols[colNum].removeBeats(this.comboCounter);
-      this.score += hitResult.beatPoints;
-      this.comboCounter = hitResult.combo;
-      // this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * this.speed));
-
-      this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime) / 10) * 10 - 380 * 3 - 80);
-      //BEATLOGGER, DO NOT DELETE!!!
-      console.log(this.beatLogger);
-      //BEATLOGGER, DO NOT DELETE!!!
-    }
-  }]);
-
-  return BeatMap;
-}();
-
-exports.default = BeatMap;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _beat = __webpack_require__(0);
-
-var _beat2 = _interopRequireDefault(_beat);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -353,6 +236,126 @@ var BeatColumn = function () {
 exports.default = BeatColumn;
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _beat = __webpack_require__(0);
+
+var _beat2 = _interopRequireDefault(_beat);
+
+var _beat_column = __webpack_require__(1);
+
+var _beat_column2 = _interopRequireDefault(_beat_column);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var BeatMap = function () {
+  function BeatMap(notes0, notes1, notes2, notes3, speed) {
+    _classCallCheck(this, BeatMap);
+
+    // this.time = 0;
+    this.startTime = 0;
+    this.currentTime = 0;
+    //notes are arrays with time integers (in ms) to see when it needs to be added to respective BeatColumn
+    this.notes = {
+      0: notes0,
+      1: notes1,
+      2: notes2,
+      3: notes3
+    };
+
+    this.cols = {
+      0: new _beat_column2.default(0),
+      1: new _beat_column2.default(1),
+      2: new _beat_column2.default(2),
+      3: new _beat_column2.default(3)
+    };
+    this.score = 0;
+    this.comboCounter = 0;
+    this.speed = speed;
+    this.addNotes = this.addNotes.bind(this);
+    this.keyHit = this.keyHit.bind(this);
+    this.displayScore = this.displayScore.bind(this);
+    this.scoreCanvas = document.getElementById("outer-canvas");
+    this.ctx = this.scoreCanvas.getContext("2d");
+
+    //ONLY TO BEATMAP
+    this.beatLogger = {
+      0: [],
+      1: [],
+      2: [],
+      3: []
+    };
+  }
+
+  _createClass(BeatMap, [{
+    key: 'addNotes',
+    value: function addNotes(colNum) {
+      if (this.notes[colNum][0] <= this.currentTime - this.startTime) {
+        this.cols[colNum].addBeat(colNum);
+        this.notes[colNum].shift();
+      }
+    }
+  }, {
+    key: 'drawBeatMap',
+    value: function drawBeatMap() {
+      var missedNotes0 = this.cols[0].drawBeats(this.comboCounter, this.speed);
+      var missedNotes1 = this.cols[1].drawBeats(this.comboCounter, this.speed);
+      var missedNotes2 = this.cols[2].drawBeats(this.comboCounter, this.speed);
+      var missedNotes3 = this.cols[3].drawBeats(this.comboCounter, this.speed);
+      // this.comboCounter = missedNotes0.combo;
+      // this.comboCounter = missedNotes1.combo;
+      // this.comboCounter = missedNotes2.combo;
+      // this.comboCounter = missedNotes3.combo;
+      if (missedNotes0.combo === 0 || missedNotes1.combo === 0 || missedNotes2.combo === 0 || missedNotes3.combo === 0) {
+        this.comboCounter = 0;
+      }
+      this.currentTime = new Date().getTime();
+      this.displayScore();
+    }
+  }, {
+    key: 'displayScore',
+    value: function displayScore() {
+      this.ctx.clearRect(0, 0, this.scoreCanvas.width, this.scoreCanvas.height);
+      this.ctx.font = '20px serif';
+      this.ctx.fillText('Score', this.scoreCanvas.width * .03, this.scoreCanvas.height * .2);
+      this.ctx.fillText('' + this.score, this.scoreCanvas.width * .03, this.scoreCanvas.height * .25);
+
+      this.ctx.fillText('Combo', this.scoreCanvas.width * .03, this.scoreCanvas.height * .4);
+      this.ctx.fillText('' + this.comboCounter, this.scoreCanvas.width * .03, this.scoreCanvas.height * .45);
+    }
+  }, {
+    key: 'keyHit',
+    value: function keyHit(colNum) {
+      var hitResult = this.cols[colNum].removeBeats(this.comboCounter);
+      this.score += hitResult.beatPoints;
+      this.comboCounter = hitResult.combo;
+      // this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * this.speed));
+
+      this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime) / 10) * 10 - 380 * 3 - 80);
+      //BEATLOGGER, DO NOT DELETE!!!
+      // console.log(this.beatLogger);
+      //BEATLOGGER, DO NOT DELETE!!!
+    }
+  }]);
+
+  return BeatMap;
+}();
+
+exports.default = BeatMap;
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -424,7 +427,7 @@ var _beat = __webpack_require__(0);
 
 var _beat2 = _interopRequireDefault(_beat);
 
-var _beat_column = __webpack_require__(2);
+var _beat_column = __webpack_require__(1);
 
 var _beat_column2 = _interopRequireDefault(_beat_column);
 
@@ -432,7 +435,7 @@ var _songs = __webpack_require__(3);
 
 var Song = _interopRequireWildcard(_songs);
 
-var _beatmap = __webpack_require__(1);
+var _beatmap = __webpack_require__(2);
 
 var _beatmap2 = _interopRequireDefault(_beatmap);
 
@@ -440,7 +443,7 @@ var _song_list = __webpack_require__(4);
 
 var _song_list2 = _interopRequireDefault(_song_list);
 
-var _game = __webpack_require__(8);
+var _game = __webpack_require__(7);
 
 var _game2 = _interopRequireDefault(_game);
 
@@ -476,7 +479,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _beatmap = __webpack_require__(1);
+var _beatmap = __webpack_require__(2);
 
 var _beatmap2 = _interopRequireDefault(_beatmap);
 
@@ -512,8 +515,7 @@ var music = {
 exports.default = music;
 
 /***/ }),
-/* 7 */,
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -529,7 +531,7 @@ var _beat = __webpack_require__(0);
 
 var _beat2 = _interopRequireDefault(_beat);
 
-var _beat_column = __webpack_require__(2);
+var _beat_column = __webpack_require__(1);
 
 var _beat_column2 = _interopRequireDefault(_beat_column);
 
@@ -537,7 +539,7 @@ var _songs = __webpack_require__(3);
 
 var Song = _interopRequireWildcard(_songs);
 
-var _beatmap = __webpack_require__(1);
+var _beatmap = __webpack_require__(2);
 
 var _beatmap2 = _interopRequireDefault(_beatmap);
 

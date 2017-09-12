@@ -62,9 +62,12 @@ class BeatMap {
 
   displayScore() {
     this.ctx.clearRect(0,0,this.scoreCanvas.width, this.scoreCanvas.height);
-    this.ctx.font = '24px serif';
-    this.ctx.fillText(`Score: ${this.score}`, this.scoreCanvas.width * .05, this.scoreCanvas.height * .2);
-    this.ctx.fillText(`Combo: ${this.comboCounter}`, this.scoreCanvas.width * .05, this.scoreCanvas.height * .4);
+    this.ctx.font = '20px serif';
+    this.ctx.fillText(`Score`, this.scoreCanvas.width * .03, this.scoreCanvas.height * .2);
+    this.ctx.fillText(`${this.score}`, this.scoreCanvas.width * .03, this.scoreCanvas.height * .25);
+
+    this.ctx.fillText(`Combo`, this.scoreCanvas.width * .03, this.scoreCanvas.height * .4);
+    this.ctx.fillText(`${this.comboCounter}`, this.scoreCanvas.width * .03, this.scoreCanvas.height * .45);
   }
   keyHit(colNum) {
     let hitResult = this.cols[colNum].removeBeats(this.comboCounter);
