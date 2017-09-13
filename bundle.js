@@ -343,9 +343,9 @@ var BeatMap = function () {
       this.comboCounter = hitResult.combo;
       // this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * this.speed));
 
-      this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime) / 10) * 10 - 380 * 3 - 80);
+      this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime) / 10) * 10 - 380 * 3 - 80 + 400);
       //BEATLOGGER, DO NOT DELETE!!!
-      // console.log(this.beatLogger);
+      console.log(this.beatLogger);
       //BEATLOGGER, DO NOT DELETE!!!
     }
   }]);
@@ -408,10 +408,15 @@ var _cyf = __webpack_require__(6);
 
 var _cyf2 = _interopRequireDefault(_cyf);
 
+var _gd = __webpack_require__(8);
+
+var _gd2 = _interopRequireDefault(_gd);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SongList = {
-  cyf: _cyf2.default
+  cyf: _cyf2.default,
+  gd: _gd2.default
 };
 
 exports.default = SongList;
@@ -680,6 +685,52 @@ var Game = function () {
 }();
 
 exports.default = Game;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _beatmap = __webpack_require__(2);
+
+var _beatmap2 = _interopRequireDefault(_beatmap);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var gdEasy0 = [1640];
+
+var gdEasy1 = [];
+
+var gdEasy2 = [];
+
+var gdEasy3 = [];
+
+var gdHard0 = [2100, 6180, 7170, 7750, 9240, 10050, 11290, 13370, 13830, 14660, 18470, 20960, 21220, 21710, 22250, 23210, 24940, 25250, 28780, 29860, 30410, 31330, 33100, 33400, 34950, 35460, 36270, 37770, 39290, 43880, 44640, 46390, 46870, 47440, 47960, 48480, 49190, 49720, 51180, 53490, 54500, 54940, 55780, 57520, 57830, 61320, 62410];
+
+var gdHard1 = [5900, 6950, 7840, 9770, 11550, 13610, 14110, 14660, 15120, 15680, 16890, 17870, 18470, 18910, 19610, 20700, 21450, 22040, 22720, 24740, 25250, 26800, 27300, 28050, 29040, 30120, 30840, 32880, 33400, 34250, 36270, 38030, 38590, 38810, 39070, 39540, 40300, 43770, 44010, 44550, 44920, 46630, 47170, 47690, 48260, 48860, 49110, 49640, 50900, 51450, 52250, 53270, 53960, 54740, 55370, 57290, 57830, 59340, 59840, 60580, 61590, 62650];
+
+var gdHard2 = [5900, 6950, 7950, 8720, 8970, 9510, 10550, 11070, 11770, 12570, 13710, 15890, 17090, 17960, 18910, 19350, 19920, 20470, 21450, 21930, 22250, 23210, 24050, 26040, 28050, 29040, 30410, 31330, 32210, 34680, 36980, 38160, 40440, 41300, 42310, 42990, 44110, 44410, 44770, 46510, 47020, 47570, 48100, 48600, 48960, 49510, 50470, 50680, 52000, 53010, 53750, 54600, 54910, 55780, 56620, 58580, 60580, 61590];
+
+var gdHard3 = [2100, 6180, 7180, 8220, 9230, 10050, 12300, 13480, 13980, 16350, 17490, 19350, 20060, 21210, 21710, 22170, 22710, 24470, 26500, 28520, 29630, 30840, 32600, 36710, 40560, 40810, 41060, 41580, 42790, 44260, 45120, 46740, 47300, 47830, 48340, 48720, 49340, 50580, 52520, 54240, 55360, 57010, 59050, 61040, 62140];
+
+var gdEasy = new _beatmap2.default(gdEasy0, gdEasy1, gdEasy2, gdEasy3, 2);
+var gdHard = new _beatmap2.default(gdHard0, gdHard1, gdHard2, gdHard3, 3);
+
+var music = {
+  title: "Get Drunk",
+  songTag: "gd",
+  songOffset: 1000,
+  easy: gdEasy,
+  hard: gdHard
+};
+
+exports.default = music;
 
 /***/ })
 /******/ ]);

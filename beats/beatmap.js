@@ -75,9 +75,9 @@ class BeatMap {
     this.comboCounter = hitResult.combo;
     // this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * this.speed));
 
-    this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * 3) - 80);
+    this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * 3) - 80 + 400);
     //BEATLOGGER, DO NOT DELETE!!!
-    // console.log(this.beatLogger);
+    console.log(this.beatLogger);
     //BEATLOGGER, DO NOT DELETE!!!
   }
 }
