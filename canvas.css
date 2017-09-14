@@ -59,7 +59,7 @@ canvas {
 }
 
 .modal > * {
-  margin-top: 2%;
+  margin-top: 3%;
   width: 70%;
   box-sizing: border-box;
   padding: 1%;
@@ -73,6 +73,7 @@ canvas {
 
 .modal h1 {
   text-align: center;
+  padding-top: 30px;
   letter-spacing: 2px;
   font-size: 60px;
   font-weight: bolder;
@@ -90,14 +91,15 @@ canvas {
   text-decoration: underline;
 }
 
-.modal-instructions {
+.modal {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.modal-instructions > * {
+.modal > * {
   margin: 0 auto;
+  padding: 15px 0 15px 0;
   margin-bottom: 10px;
   text-align: center;
 }

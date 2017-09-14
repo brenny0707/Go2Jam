@@ -15,11 +15,15 @@ class Game {
       h: false,
       j: false,
     };
+    this.beatMap = null;
     this.drawBorder = this.drawBorder.bind(this);
     this.keyHit = this.keyHit.bind(this);
     this.keyUp = this.keyUp.bind(this);
     this.playCurrentSong = this.playCurrentSong.bind(this);
-    this.closeIntroModal = this.closeIntroModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.resetGame = this.resetGame.bind(this);
+    this.drawInterval = null;
   }
   drawBorder() {
     this.ctx.fillStyle = 'rgba(255, 215, 0, .6)';
@@ -34,13 +38,42 @@ class Game {
       this.ctx.fillText('J', this.canvas.width * .86, this.canvas.height * .81);
     }
   }
-  closeIntroModal() {
-    const modal = document.getElementById('intro-modal');
+
+  resetGame() {
+    if ( event.keyCode === 13) {
+      this.closeModal('score-modal');
+      this.openModal('intro-modal');
+      clearInterval(this.drawInterval);
+      document.removeEventListener('keydown', this.resetGame, false);
+    }
+  }
+
+  closeModal(modalId) {
+    const modal = document.getElementById(modalId);
     const modalContainer = document.getElementById('modal-container');
     modalContainer.className = 'hidden';
     modal.className = 'hidden';
-
   }
+
+  openModal(modalId) {
+    event.preventDefault();
+    const modal = document.getElementById(modalId);
+    const modalContainer = document.getElementById('modal-container');
+    modalContainer.className = 'modal-container';
+    modal.className = 'modal';
+    if (modalId === 'score-modal') {
+      let score = document.createElement("p");
+      let textnode = document.createTextNode(`Final Score: ${this.beatMap.score}`);
+      score.appendChild(textnode);
+      modal.insertBefore(score, modal.children[1]);
+      document.addEventListener('keydown', function() {
+        if ( event.keyCode === 13) {
+          this.resetGame();
+        }
+      }.bind(this), false);
+    }
+  }
+
   keyHit(num, key) {
     if (this.firedKeys[key] === false) {
       this.firedKeys[key] = true;
@@ -65,34 +98,45 @@ class Game {
   }
   playCurrentSong(songTag, difficulty) {
     let selectedSong = SongList[songTag];
-    let selectedBeatMap = selectedSong[difficulty];
-    selectedBeatMap.startTime = new Date().getTime();
-    selectedBeatMap.currentTime = new Date().getTime();
-    setInterval( () => {
-      selectedBeatMap.addNotes(0);
-      selectedBeatMap.addNotes(1);
-      selectedBeatMap.addNotes(2);
-      selectedBeatMap.addNotes(3);
-      selectedBeatMap.drawBeatMap();
+    this.beatMap = new BeatMap(
+      selectedSong[difficulty].notes[0].slice(0),
+      selectedSong[difficulty].notes[1].slice(0),
+      selectedSong[difficulty].notes[2].slice(0),
+      selectedSong[difficulty].notes[3].slice(0),
+      selectedSong[difficulty].speed);
+    this.beatMap.startTime = new Date().getTime();
+    this.beatMap.currentTime = new Date().getTime();
+    this.drawInterval = setInterval( () => {
+      this.beatMap.addNotes(0);
+      this.beatMap.addNotes(1);
+      this.beatMap.addNotes(2);
+      this.beatMap.addNotes(3);
+      this.beatMap.drawBeatMap();
     }, 1);
-    setTimeout( () => Song.playSong(selectedSong.songTag), selectedSong.songOffset);
+    setTimeout( () => {
+      Song.playSong(selectedSong.songTag);
+      // let audio = document.querySelector(`#${selectedSong.songTag}`);
+      // audio.onended = function() {
+      //   this.openModal('score-modal');
+      // }.bind(this);
+      }, selectedSong.songOffset);
     window.addEventListener('keydown', function(event) {
       switch(event.keyCode) {
         case 70:
           this.keyHit(0, "f");
-          selectedBeatMap.keyHit(0);
+          this.beatMap.keyHit(0);
           break;
         case 71:
           this.keyHit(1, "g");
-          selectedBeatMap.keyHit(1);
+          this.beatMap.keyHit(1);
           break;
         case 72:
           this.keyHit(2, "h");
-          selectedBeatMap.keyHit(2);
+          this.beatMap.keyHit(2);
           break;
         case 74:
           this.keyHit(3, "j");
-          selectedBeatMap.keyHit(3);
+          this.beatMap.keyHit(3);
           break;
         default:
       }

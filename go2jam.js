@@ -12,12 +12,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener("click", (event) => {
       if (event.target.type === "button") {
-        game.closeIntroModal();
+        game.closeModal('intro-modal');
         let songChoice = event.target.name;
         let BMDifficulty = event.target.value;
         let currentSong = SongList[songChoice];
-        let currentBeatMap = currentSong[BMDifficulty];
+        // let currentBeatMap = new BeatMap(
+        //   currentSong[BMDifficulty].notes[0].slice(0),
+        //   currentSong[BMDifficulty].notes[1].slice(0),
+        //   currentSong[BMDifficulty].notes[2].slice(0),
+        //   currentSong[BMDifficulty].notes[3].slice(0),
+        //   currentSong[BMDifficulty].speed);
+        let beatMapEndTime = currentSong["endTime"];
         game.playCurrentSong(songChoice, BMDifficulty);
+        let audio = document.querySelector(`#${songChoice}`);
+        audio.onended = function() {
+          game.openModal('score-modal');
+        };
+
+
       }
     });
 

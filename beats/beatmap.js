@@ -8,10 +8,10 @@ class BeatMap {
     this.currentTime = 0;
     //notes are arrays with time integers (in ms) to see when it needs to be added to respective BeatColumn
     this.notes = {
-      0: notes0,
-      1: notes1,
-      2: notes2,
-      3: notes3,
+      0: notes0.slice(0),
+      1: notes1.slice(0),
+      2: notes2.slice(0),
+      3: notes3.slice(0),
     };
 
     this.cols = {
@@ -75,9 +75,10 @@ class BeatMap {
     this.comboCounter = hitResult.combo;
     // this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * this.speed));
 
-    this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * 3) - 80 + 400);
+    this.beatLogger[colNum].push(Math.round((this.currentTime - this.startTime)/10)*10 - (380 * 3) - 80 );
+    // + 400
     //BEATLOGGER, DO NOT DELETE!!!
-    console.log(this.beatLogger);
+    // console.log(this.beatLogger);
     //BEATLOGGER, DO NOT DELETE!!!
   }
 }

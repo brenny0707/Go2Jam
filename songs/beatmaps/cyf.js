@@ -35,6 +35,7 @@ const music = {
   songOffset: 1000,
   easy: cyfEasy,
   hard: cyfHard,
+  endTime: 10200,
 };
 
 export default music;
