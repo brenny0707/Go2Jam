@@ -43,6 +43,8 @@ class Game {
     if ( event.keyCode === 13) {
       this.closeModal('score-modal');
       this.openModal('intro-modal');
+      let scoreP = document.getElementById("score-p");
+      scoreP.innerHTML = ``;
       clearInterval(this.drawInterval);
       document.removeEventListener('keydown', this.resetGame, false);
     }
@@ -62,10 +64,13 @@ class Game {
     modalContainer.className = 'modal-container';
     modal.className = 'modal';
     if (modalId === 'score-modal') {
-      let score = document.createElement("p");
-      let textnode = document.createTextNode(`Final Score: ${this.beatMap.score}`);
-      score.appendChild(textnode);
-      modal.insertBefore(score, modal.children[1]);
+      let scoreP = document.getElementById("score-p");
+      scoreP.innerHTML = `Score: ${this.beatMap.score}`;
+      // let score = document.createElement("p");
+      // score.setAttribute("id", "score");
+      // let textnode = document.createTextNode(`Final Score: ${this.beatMap.score}`);
+      // score.appendChild(textnode);
+      // modal.insertBefore(score, modal.children[1]);
       document.addEventListener('keydown', function() {
         if ( event.keyCode === 13) {
           this.resetGame();
