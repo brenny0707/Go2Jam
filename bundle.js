@@ -658,6 +658,9 @@ var Game = function () {
     key: 'resetGame',
     value: function resetGame() {
       if (event.keyCode === 13) {
+        var scoreCanvas = document.getElementById("outer-canvas");
+        var ctx = scoreCanvas.getContext("2d");
+        ctx.clearRect(0, 0, scoreCanvas.width, scoreCanvas.height);
         this.closeModal('score-modal');
         this.openModal('intro-modal');
         var scoreP = document.getElementById("score-p");

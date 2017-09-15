@@ -41,6 +41,9 @@ class Game {
 
   resetGame() {
     if ( event.keyCode === 13) {
+      const scoreCanvas = document.getElementById("outer-canvas");
+      const ctx = scoreCanvas.getContext("2d");
+      ctx.clearRect(0,0,scoreCanvas.width, scoreCanvas.height);
       this.closeModal('score-modal');
       this.openModal('intro-modal');
       let scoreP = document.getElementById("score-p");
