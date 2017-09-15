@@ -62,7 +62,7 @@ class BeatMap {
 
   displayScore() {
     this.ctx.clearRect(0,0,this.scoreCanvas.width, this.scoreCanvas.height);
-    this.ctx.font = '20px serif';
+    this.ctx.font = '20px Roboto';
     this.ctx.fillText(`Score`, this.scoreCanvas.width * .03, this.scoreCanvas.height * .2);
     this.ctx.fillText(`${this.score}`, this.scoreCanvas.width * .03, this.scoreCanvas.height * .25);
 

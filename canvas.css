@@ -10,7 +10,7 @@
 
 canvas {
   position: absolute;
-  top: 50px;
+  top: 0px;
   left: 150px;
   margin: 0 auto;
   border: 5px solid black;
@@ -28,7 +28,7 @@ canvas {
   left: 0px;
   margin: 0 auto;
   border: 5px solid black;
-  background-color: transparent;
+  background-color: #F7F7F7;
 }
 
 /*modal css*/
@@ -52,6 +52,7 @@ canvas {
   background: rgba(82,172,255,.7);
   height: 75%;
   max-width: 650px;
+  max-height: 650px;
   width: 50%;
   border-radius: 50px;
   /*font-family: 'Roboto', sans-serif;*/
