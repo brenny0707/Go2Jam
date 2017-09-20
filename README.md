@@ -1,5 +1,7 @@
 # Go2Jam
 
+[Live Link](http://go2jam.brendanko.com/)
+
 Go2Jam is a JavaScript/HTML5 Canvas rhythm game based on the Korean rhythm game O2Jam. The game consists of a music board with beats scrolling downwards where players press keys in time with the beat.
 
 ## Features
